@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Test&Build') {        
+        stage('Test&Build a Gradle project') {        
             parallel {
                 stage('Unit Test') {
                     steps {
@@ -21,6 +21,16 @@ pipeline {
                             sh 'ls -a' 
                             sh './gradlew clean test'
                         }
+                    }
+                }
+            }
+        }
+
+        strage('Build&Push a Docker image') {
+            stage('Build') {
+                steps {
+                    container('docker') {
+                        sh 'ls -a'
                     }
                 }
             }
