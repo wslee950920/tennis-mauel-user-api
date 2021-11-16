@@ -1,18 +1,23 @@
-node('master'){
-    stage('Poll'){
-        checkout scm
+pipeline {
+    agent {
+        kubernetes {
+            label 'tennis-mauel'
+            yamlFile 'JenkinsPod.yaml'
+        }
     }
-
-    stage('Unit test'){
-        sh './gradlew clean test'
-        junit '**/build/test-results/test/*.xml'
-    }
-
-    stage('Build package'){
-        sh './gradlew clean build -x test'
-    }
-
-    stage("Build Docker image"){
-        app = docker.build("tennis-mauel-user-api:${env.BUILD_ID}", ".")
+    
+    stages {
+        stage('Test&Build') {
+            git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
+        
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        sh './gradlew clean test'
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                }
+            }
+        }
     }
 }

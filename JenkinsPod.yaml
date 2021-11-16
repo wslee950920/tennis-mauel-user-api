@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: JenkinsCI
+spec:
+  containers:
+    - image: gradle:latest
+      name: gradle
+      command:
+        - sleep
+      args:
+        - 99d
+
+    - image: docker:latest
+      name: docker
+      command:
+        - sleep
+      args:
+        - 99d
