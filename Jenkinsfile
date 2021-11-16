@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        strage('Build&Push a Docker image') {
+        stage('Build&Push a Docker image') {
             stage('Build') {
                 steps {
                     container('docker') {
