@@ -7,9 +7,13 @@ pipeline {
     }
     
     stages {
-        stage('Test&Build') {
-            git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
-        
+        stage('git') {
+            steps {
+                git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
+            }
+        }
+
+        stage('Test&Build') {        
             parallel {
                 stage('Unit Test') {
                     steps {
