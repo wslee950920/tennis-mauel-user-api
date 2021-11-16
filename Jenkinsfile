@@ -10,7 +10,6 @@ pipeline {
         stage('git') {
             steps {
                 git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
-                sh 'ls -a'
             }
         }
 

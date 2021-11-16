@@ -11,7 +11,7 @@ spec:
       args:
         - 99d
 
-    - image: docker:latest
+    - image: docker:dind-rootless
       name: docker
       command:
         - sleep
