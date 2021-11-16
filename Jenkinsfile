@@ -14,7 +14,8 @@ pipeline {
             }
         }
 
-        stage('Test a Gradle project') {        
+        stage('Test a Gradle project') {  
+            //추후 통합 테스트를 병렬로 수행      
             parallel {
                 stage('Unit Test') {
                     steps {
@@ -37,7 +38,8 @@ pipeline {
         stage('Build a Docker image') {
             steps {
                 container('docker') {
-                    sh 'ls -a'
+                    sh 'docker build -t tennis-mauel-user-api:${env.BUILD_ID} .'
+                    sh 'docker image ls'
                 }
             }
         }
