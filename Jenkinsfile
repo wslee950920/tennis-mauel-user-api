@@ -30,6 +30,7 @@ pipeline {
             steps {
                 container('gradle') {
                     sh './gradlew clean build -x test'
+                    sh './build/libs'
                 }
             }
         }
