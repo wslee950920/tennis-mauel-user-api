@@ -36,9 +36,13 @@ pipeline {
         }
 
         stage('Build a Docker image') {
+            environment {
+                tag = env.BUILD_ID
+            }
+
             steps {
                 container('docker') {
-                    sh 'docker build -t tennis-mauel-user-api:${env.BUILD_ID} .'
+                    sh 'docker build -t tennis-mauel-user-api:$tag .'
                     sh 'docker image ls'
                 }
             }
