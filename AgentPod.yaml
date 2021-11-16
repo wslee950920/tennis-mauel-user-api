@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: JenkinsCI
 spec:
+  nodeSelector:
+    docker: "true"
   containers:
     - image: gradle:latest
       name: gradle

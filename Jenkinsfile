@@ -1,8 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'tennis-mauel'
-            yamlFile 'JenkinsPod.yaml'
+            yamlFile 'AgentPod.yaml'
         }
     }
     
@@ -13,10 +12,19 @@ pipeline {
             }
         }
 
-        stage('Test a Gradle project') {  
-            //추후 통합 테스트를 병렬로 수행      
+        stage('Test a Gradle project') {        
             parallel {
                 stage('Unit Test') {
+                    steps {
+                        container('gradle') {
+                            sh './gradlew clean test'
+                            junit '**/build/test-results/test/*.xml'
+                        }
+                    }
+                }
+
+                //추후 통합 테스트를 병렬로 수행
+                stage('Integration Test') {
                     steps {
                         container('gradle') {
                             sh './gradlew clean test'
