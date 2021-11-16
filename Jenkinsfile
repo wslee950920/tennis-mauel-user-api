@@ -17,8 +17,10 @@ pipeline {
             parallel {
                 stage('Unit Test') {
                     steps {
-                        sh './gradlew clean test'
-                        junit '**/build/test-results/test/*.xml'
+                        container('gradle') {
+                            sh 'ls -a' 
+                            sh './gradlew clean test'
+                        }
                     }
                 }
             }
