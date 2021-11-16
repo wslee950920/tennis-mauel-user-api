@@ -18,7 +18,6 @@ pipeline {
                     steps {
                         container('gradle') {
                             sh './gradlew clean test'
-                            junit '**/build/test-results/test/*.xml'
                         }
                     }
                 }
@@ -28,6 +27,7 @@ pipeline {
                     steps {
                         container('gradle') {
                             sh './gradlew clean test'
+                            junit '**/build/test-results/test/*.xml'
                         }
                     }
                 }
@@ -38,7 +38,6 @@ pipeline {
             steps {
                 container('gradle') {
                     sh './gradlew clean build -x test'
-                    sh 'ls ./build/libs'
                 }
             }
         }
@@ -51,7 +50,6 @@ pipeline {
             steps {
                 container('docker') {
                     sh 'docker build -t tennis-mauel-user-api:$tag .'
-                    sh 'docker image ls'
                 }
             }
         }

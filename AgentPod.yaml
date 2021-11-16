@@ -12,6 +12,13 @@ spec:
         - sleep
       args:
         - 99d
+      resources:
+        requests:
+          memory: '256Mi'
+          cpu: '500m'
+        limits:
+          memory: '4Gi'
+          cpu: 4
 
     - image: docker:latest
       name: docker
@@ -22,6 +29,13 @@ spec:
       volumeMounts:
         - mountPath: /var/run/docker.sock
           name: containerd-sock
+      resources:
+        requests:
+          memory: '256Mi'
+          cpu: '500m'
+        limits:
+          memory: '4Gi'
+          cpu: 4
 
   volumes:
     - name: containerd-sock
