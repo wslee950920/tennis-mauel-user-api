@@ -16,7 +16,7 @@ pipeline {
             parallel {
                 stage('Unit Test') {
                     steps {
-                        container('gradle') {
+                        container('gradle1') {
                             sh './gradlew clean test'
                         }
                     }
@@ -25,7 +25,7 @@ pipeline {
                 //추후 통합 테스트를 병렬로 수행
                 stage('Integration Test') {
                     steps {
-                        container('gradle') {
+                        container('gradle2') {
                             sh './gradlew clean test'
                             junit '**/build/test-results/test/*.xml'
                         }
@@ -36,7 +36,7 @@ pipeline {
 
         stage('Build a Gradle project') {
             steps {
-                container('gradle') {
+                container('gradle3') {
                     sh './gradlew clean build -x test'
                 }
             }
