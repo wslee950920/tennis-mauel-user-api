@@ -37,7 +37,7 @@ pipeline {
 
         stage('Build a Docker image') {
             environment {
-                tag = ${env.BUILD_ID}
+                tag = "${env.BUILD_ID}"
             }
 
             steps {
