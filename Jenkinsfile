@@ -27,7 +27,7 @@ pipeline {
                 stage('Integration Test') {
                     steps {
                         container('gradle2') {
-                            sh 'gradle test'
+                            sh 'gradle test --no-daemon'
                         }
                     }
                 }
