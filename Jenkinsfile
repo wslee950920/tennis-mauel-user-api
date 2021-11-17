@@ -18,8 +18,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "gradle sonarqube"
+                container('gradle') {
+                    withSonarQubeEnv('sonarqube') {
+                        sh "gradle sonarqube"
+                    }
                 }
             }
         }
