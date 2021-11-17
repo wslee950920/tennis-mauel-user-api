@@ -8,9 +8,6 @@ pipeline {
     parameters {
         string(name: 'REGISTRY', defaultValue: 'http://registry-docker-registry.registry.svc.cluster.local:5000')
     }
-    environment {
-        tag = "${env.BUILD_ID}"
-    }
     
     stages {
         stage('git') {
@@ -51,7 +48,7 @@ pipeline {
         stage('Build a Docker image') {
             steps {
                 container('docker') {
-                    sh 'docker build -t tennis-mauel-user-api:$tag .'
+                    sh "docker build -t tennis-mauel-user-api:${env.BUILD_ID} ."
                 }
             }
         }
@@ -59,8 +56,8 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh 'docker tag tennis-mauel-user-api:$tag $params.REGISTRY/tennis-mauel-user-api:$tag'
-                    sh 'docker push $params.REGISTRY/tennis-mauel-user-api:$tag'
+                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
+                    sh "docker push ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
                 }
             }
         }
