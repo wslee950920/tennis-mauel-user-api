@@ -13,19 +13,11 @@ pipeline {
             }
         }
 
-        stage('Clean a Gradle project') {
-            steps {
-                container('gradle') {
-                    sh './gradlew clean'
-                }
-            }
-        }
-
         stage('Test a Gradle project') {        
             parallel {
                 stage('Unit Test') {
                     steps {
-                        container('gradle') {
+                        container('gradle1') {
                             sh './gradlew test'
                         }
                     }
@@ -34,7 +26,7 @@ pipeline {
                 //추후 통합 테스트를 병렬로 수행
                 stage('Integration Test') {
                     steps {
-                        container('gradle') {
+                        container('gradle2') {
                             sh './gradlew test'
                         }
                     }
@@ -44,9 +36,7 @@ pipeline {
 
         stage('Test Results') {
             steps {
-                container('gradle') {
-                    junit '**/build/test-results/test/*.xml'
-                }
+                junit '**/build/test-results/test/*.xml'
             }
         }
 
