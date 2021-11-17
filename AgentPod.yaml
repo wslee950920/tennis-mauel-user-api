@@ -6,7 +6,7 @@ spec:
   nodeSelector:
     docker: "true"
   containers:
-    - image: gradle:7.2.0-jre11
+    - image: gradle:7.2.0-jdk11-alpine
       name: gradle1
       command:
         - sleep
@@ -20,7 +20,7 @@ spec:
           cpu: 1
           memory: "1024Mi"
 
-    - image: gradle:7.2.0-jre11
+    - image: gradle:7.2.0-jdk11-alpine
       name: gradle2
       command:
         - sleep

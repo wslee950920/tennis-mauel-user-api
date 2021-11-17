@@ -18,7 +18,7 @@ pipeline {
                 stage('Unit Test') {
                     steps {
                         container('gradle1') {
-                            sh './gradlew test'
+                            sh 'gradle test'
                         }
                     }
                 }
@@ -27,7 +27,7 @@ pipeline {
                 stage('Integration Test') {
                     steps {
                         container('gradle2') {
-                            sh './gradlew test'
+                            sh 'gradle test'
                         }
                     }
                 }
@@ -43,7 +43,7 @@ pipeline {
         stage('Build a Gradle project') {
             steps {
                 container('gradle') {
-                    sh './gradlew build -x test'
+                    sh 'gradle build -x test'
                 }
             }
         }
