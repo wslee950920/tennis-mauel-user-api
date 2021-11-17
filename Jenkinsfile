@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: 'registry-docker-registry.registry.svc.cluster.local:5000')
+        string(name: 'REGISTRY', defaultValue: 'registry-docker-registry.registry:5000')
     }
     
     stages {
