@@ -42,7 +42,7 @@ pipeline {
 
         stage('Build a Gradle project') {
             steps {
-                container('gradle') {
+                container('gradle1') {
                     sh 'gradle build -x test'
                 }
             }
