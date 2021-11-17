@@ -59,8 +59,8 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh 'docker tag tennis-mauel-user-api:$tag ${params.REGISTRY}/tennis-mauel-user-api:$tag'
-                    sh 'docker push ${params.REGISTRY}/tennis-mauel-user-api:$tag'
+                    sh 'docker tag tennis-mauel-user-api:$tag $params.REGISTRY/tennis-mauel-user-api:$tag'
+                    sh 'docker push $params.REGISTRY/tennis-mauel-user-api:$tag'
                 }
             }
         }
