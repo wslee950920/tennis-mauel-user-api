@@ -18,7 +18,7 @@ spec:
           memory: "256Mi"
         limits:
           cpu: 1
-          memory: "1024Mi"
+          memory: "2048Mi"
 
     - image: gradle:7.2.0-jdk11-alpine
       name: gradle2
@@ -32,7 +32,7 @@ spec:
           memory: "256Mi"
         limits:
           cpu: 1
-          memory: "1024Mi"
+          memory: "2048Mi"
 
     - image: docker:latest
       name: docker
