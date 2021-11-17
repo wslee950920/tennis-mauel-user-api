@@ -16,22 +16,18 @@ pipeline {
         stage('Test a Gradle project') {        
             //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
 
-                stage('Unit Test') {
                     steps {
                         container('gradle') {
                             sh 'gradle test'
                         }
                     }
-                }
 
-                //추후 통합 테스트로 변경
-                stage('Integration Test') {
+                    //추후 통합 테스트로 변경
                     steps {
                         container('gradle') {
                             sh 'gradle test'
                         }
                     }
-                }
         }
 
         stage('Test Results') {
