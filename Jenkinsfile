@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: 'registry-docker-registry.registry:5000')
+        string(name: 'REGISTRY', defaultValue: '192.168.35.37:32550')
     }
     
     stages {
@@ -73,7 +73,7 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api"
+                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
                     sh "docker push ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
                 }
             }
