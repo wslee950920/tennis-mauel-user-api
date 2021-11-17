@@ -35,10 +35,10 @@ pipeline {
                 container('gradle') {
                     sh 'gradle test'
                 }
+
+                junit '**/build/test-results/test/*.xml'
             }
         }
-
-        junit '**/build/test-results/test/*.xml'
 
         stage('Build a Gradle project') {
             steps {
