@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Test a Gradle project') {        
+        stage('Unit Test a Gradle project') {        
             //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
 
                     steps {
@@ -21,6 +21,10 @@ pipeline {
                             sh 'gradle test'
                         }
                     }
+        }
+
+        stage('Integration Test a Gradle project') {        
+            //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
 
                     //추후 통합 테스트로 변경
                     steps {
