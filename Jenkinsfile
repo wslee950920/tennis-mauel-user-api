@@ -14,24 +14,24 @@ pipeline {
         }
 
         stage('Test a Gradle project') {        
-            parallel {
+            //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
+
                 stage('Unit Test') {
                     steps {
-                        container('gradle1') {
+                        container('gradle') {
                             sh 'gradle test'
                         }
                     }
                 }
 
-                //추후 통합 테스트를 병렬로 수행
+                //추후 통합 테스트로 변경
                 stage('Integration Test') {
                     steps {
-                        container('gradle2') {
+                        container('gradle') {
                             sh 'gradle test'
                         }
                     }
                 }
-            }
         }
 
         stage('Test Results') {
@@ -42,7 +42,7 @@ pipeline {
 
         stage('Build a Gradle project') {
             steps {
-                container('gradle1') {
+                container('gradle') {
                     sh 'gradle build -x test'
                 }
             }

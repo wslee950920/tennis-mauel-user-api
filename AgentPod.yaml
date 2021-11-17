@@ -7,7 +7,7 @@ spec:
     docker: "true"
   containers:
     - image: gradle:7.2.0-jdk11-alpine
-      name: gradle1
+      name: gradle
       command:
         - sleep
       args:
@@ -18,21 +18,7 @@ spec:
           memory: "256Mi"
         limits:
           cpu: 1
-          memory: "2048Mi"
-
-    - image: gradle:7.2.0-jdk11-alpine
-      name: gradle2
-      command:
-        - sleep
-      args:
-        - 99d
-      resources:
-        requests:
-          cpu: "250m"
-          memory: "256Mi"
-        limits:
-          cpu: 1
-          memory: "2048Mi"
+          memory: "1024Mi"
 
     - image: docker:latest
       name: docker
