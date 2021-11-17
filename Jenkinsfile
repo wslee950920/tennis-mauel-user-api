@@ -5,6 +5,12 @@ pipeline {
             defaultContainer 'jnlp'
         }
     }
+    parameters {
+        string(name: 'REGISTRY', defaultValue: 'http://registry-docker-registry.registry.svc.cluster.local:5000')
+    }
+    environment {
+        tag = "${env.BUILD_ID}"
+    }
     
     stages {
         stage('git') {
@@ -13,32 +19,26 @@ pipeline {
             }
         }
 
+        //한개의 stage에는 한개의 steps만
         stage('Unit Test a Gradle project') {        
-            //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
-
-                    steps {
-                        container('gradle') {
-                            sh 'gradle test'
-                        }
-                    }
-        }
-
-        stage('Integration Test a Gradle project') {        
-            //병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
-
-                    //추후 통합 테스트로 변경
-                    steps {
-                        container('gradle') {
-                            sh 'gradle test'
-                        }
-                    }
-        }
-
-        stage('Test Results') {
             steps {
-                junit '**/build/test-results/test/*.xml'
+                container('gradle') {
+                    sh 'gradle test'
+                }
             }
         }
+
+        //통합 테스트를 병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
+        //TODO: 추후 통합테스트로 변경
+        stage('Integration Test a Gradle project') {        
+            steps {
+                container('gradle') {
+                    sh 'gradle test'
+                }
+            }
+        }
+
+        junit '**/build/test-results/test/*.xml'
 
         stage('Build a Gradle project') {
             steps {
@@ -49,13 +49,18 @@ pipeline {
         }
 
         stage('Build a Docker image') {
-            environment {
-                tag = "${env.BUILD_ID}"
-            }
-
             steps {
                 container('docker') {
                     sh 'docker build -t tennis-mauel-user-api:$tag .'
+                }
+            }
+        }
+
+        stage('Push a Docker image') {
+            steps {
+                container('docker') {
+                    sh 'docker tag tennis-mauel-user-api:$tag ${params.REGISTRY}/tennis-mauel-user-api:$tag'
+                    sh 'docker push ${params.REGISTRY}/tennis-mauel-user-api:$tag'
                 }
             }
         }
