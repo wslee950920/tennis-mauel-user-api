@@ -2,6 +2,7 @@ pipeline {
     agent {
         kubernetes {
             yamlFile 'AgentPod.yaml'
+            defaultContainer 'jnlp'
         }
     }
     
@@ -52,7 +53,7 @@ pipeline {
         stage('Build a Gradle project') {
             steps {
                 container('gradle') {
-                    sh './gradlew clean build -x test'
+                    sh './gradlew build -x test'
                 }
             }
         }
