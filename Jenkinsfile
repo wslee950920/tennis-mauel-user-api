@@ -26,6 +26,14 @@ pipeline {
             }
         }
 
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         //한개의 stage에는 한개의 steps만
         stage('Unit Test a Gradle project') {        
             steps {
