@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: 'http://registry-docker-registry.registry.svc.cluster.local:5000')
+        string(name: 'REGISTRY', defaultValue: 'registry-docker-registry.registry.svc.cluster.local:5000')
     }
     
     stages {
@@ -56,7 +56,7 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
+                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api"
                     sh "docker push ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
                 }
             }
