@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: '192.168.35.37:32550')
+        string(name: 'REGISTRY', defaultValue: '192.168.35.37:32248')
     }
     
     stages {
