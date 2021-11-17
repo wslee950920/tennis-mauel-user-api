@@ -16,6 +16,12 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            withSonarQubeEnv('sonarqube') {
+                sh "gradle sonarqube"
+            }
+        }
+
         //한개의 stage에는 한개의 steps만
         stage('Unit Test a Gradle project') {        
             steps {
