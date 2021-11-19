@@ -26,6 +26,14 @@ pipeline {
             }
         }
 
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Test a Gradle project') {    
             parallel {
                 stage('Unit Test') {
@@ -38,7 +46,7 @@ pipeline {
 
                 stage('Integration Test') {        
                     steps {
-                        container('gradle') {
+                        container('gradle2') {
                             //TODO: 추후 통합테스트로 변경
                             sh 'gradle test'
                         }
