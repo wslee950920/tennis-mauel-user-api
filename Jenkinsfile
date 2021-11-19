@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: '192.168.35.37:31400')
+        string(name: 'REGISTRY', defaultValue: 'localhost:30125')
     }
     
     stages {
@@ -22,14 +22,6 @@ pipeline {
                     withSonarQubeEnv('sonarqube') {
                         sh "gradle sonarqube"
                     }
-                }
-            }
-        }
-
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
                 }
             }
         }
