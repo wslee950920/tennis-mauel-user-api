@@ -8,8 +8,15 @@ pipeline {
     parameters {
         string(name: 'REGISTRY', defaultValue: 'localhost:30125')
     }
+    options { skipDefaultCheckout(true) }
     
     stages {
+        stage('Start') {
+            steps {
+                slackSend (channel: '#jenkins', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+
         stage('git') {
             steps {
                 git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
@@ -79,6 +86,15 @@ pipeline {
                     sh "docker push ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            slackSend (channel: '#jenkins', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend (channel: '#jenkins', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
 }
