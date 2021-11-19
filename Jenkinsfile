@@ -26,23 +26,25 @@ pipeline {
             }
         }
 
-        //한개의 stage에는 한개의 steps만
-        stage('Unit Test a Gradle project') {        
-            steps {
-                container('gradle') {
-                    sh 'gradle test'
+        stage('Test a Gradle project') {    
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        container('gradle') {
+                            sh 'gradle test'
+                        }
+                    }
                 }
-            }
-        }
 
-        //통합 테스트를 병렬로 수행해보려 하였으나 알 수 없는 이유로 계속 실패
-        stage('Integration Test a Gradle project') {        
-            steps {
-                container('gradle') {
-                    //TODO: 추후 통합테스트로 변경
-                    sh 'gradle test'
+                stage('Integration Test') {        
+                    steps {
+                        container('gradle') {
+                            //TODO: 추후 통합테스트로 변경
+                            sh 'gradle test'
+                        }
+                    }
                 }
-            }
+            }    
         }
 
         stage('Build a Gradle project') {
