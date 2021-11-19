@@ -3,8 +3,6 @@ kind: Pod
 metadata:
   name: JenkinsCI
 spec:
-  nodeSelector:
-    docker: "true"
   containers:
     - image: gradle:7.2.0-jdk11-alpine
       name: gradle
@@ -28,7 +26,7 @@ spec:
         - 99d
       volumeMounts:
         - mountPath: /var/run/docker.sock
-          name: containerd-sock
+          name: docker-sock
       resources:
         requests:
           cpu: "250m"
@@ -38,7 +36,7 @@ spec:
           memory: "1024Mi"
 
   volumes:
-    - name: containerd-sock
+    - name: docker-sock
       hostPath:
         path: /var/run/docker.sock
         type: Socket
