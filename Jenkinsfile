@@ -85,7 +85,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        withDockerRegistry('$REGISTRY', 'registry-login') {
+                        withDockerRegistry('registry:5000', 'registry-login') {
                             sh('docker tag tennis-mauel-user-api:$BUILD_ID $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
                             sh('docker push $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
                         }
