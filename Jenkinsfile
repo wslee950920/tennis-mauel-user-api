@@ -83,10 +83,12 @@ pipeline {
 
         stage('Push a Docker image') {
             steps {
-                docker.withRegistry('$REGISTRY', 'registry-login') {
-                    container('docker') {
-                        sh('docker tag tennis-mauel-user-api:$BUILD_ID $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
-                        sh('docker push $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
+                container('docker') {
+                    script {
+                        docker.withRegistry('$REGISTRY', 'registry-login') {
+                            sh('docker tag tennis-mauel-user-api:$BUILD_ID $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
+                            sh('docker push $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
+                        }
                     }
                 }
             }
