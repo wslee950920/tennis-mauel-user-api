@@ -5,8 +5,10 @@ pipeline {
             defaultContainer 'jnlp'
         }
     }
-    parameters {
-        string(name: 'REGISTRY', defaultValue: 'registry.mauel:5000')
+    environment {
+        registry = credentials("registry")
+        registry-username = credentials("registry-username")
+        registry-password = credentials("registry-password")
     }
     options { skipDefaultCheckout(true) }
     
@@ -82,8 +84,9 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
-                    sh "docker push ${params.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
+                    sh "docker login -u ${env.registry-username} -p ${env.registry-password}"
+                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${env.registry}/tennis-mauel-user-api:${env.BUILD_ID}"
+                    sh "docker push ${env.registry}/tennis-mauel-user-api:${env.BUILD_ID}"
                 }
             }
         }
