@@ -84,9 +84,9 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh "docker login -u ${env.REGISTRY_USERNAME} -p ${env.REGISTRY_PASSWORD}"
-                    sh "docker tag tennis-mauel-user-api:${env.BUILD_ID} ${env.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
-                    sh "docker push ${env.REGISTRY}/tennis-mauel-user-api:${env.BUILD_ID}"
+                    sh('docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD')
+                    sh('docker tag tennis-mauel-user-api:$BUILD_ID $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
+                    sh('docker push $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
                 }
             }
         }
