@@ -6,7 +6,7 @@ pipeline {
         }
     }
     parameters {
-        string(name: 'REGISTRY', defaultValue: 'localhost:30125')
+        string(name: 'REGISTRY', defaultValue: 'registry.mauel:30125')
     }
     options { skipDefaultCheckout(true) }
     
