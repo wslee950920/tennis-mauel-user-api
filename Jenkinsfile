@@ -86,6 +86,10 @@ pipeline {
                 container('docker') {
                     script {
                         withDockerRegistry(url: 'https://registry:5000', credentialsId: 'registry-login') {
+                            //push를 통한 태깅은 이미지 이름에 콜론이 있으면 첫번 째 콜론을 기준으로 자르고 뒤에 태그를 붙인다.
+                            //registry:5000/tennis-mauel-user-api
+                            //->dockerImage.push('$BUILD_ID')
+                            //->registry:00
                             dockerImage.push()
                         }
                     }
