@@ -89,7 +89,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        withDockerRegistry(url: '$REGISTRY', credentialsId: 'registry-login') {
+                        withDockerRegistry(url: "$REGISTRY", credentialsId: 'registry-login') {
                             dockerImage.push('$BUILD_ID')
                         }
                     }
