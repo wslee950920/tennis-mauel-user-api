@@ -9,9 +9,9 @@ pipeline {
         REGISTRY = credentials("registry")
         REGISTRY_USERNAME = credentials("registry-username")
         REGISTRY_PASSWORD = credentials("registry-password")
-        dockerImage = ''
     }
     options { skipDefaultCheckout(true) }
+    def dockerImage = ''
     
     stages {
         stage('Start') {
@@ -88,7 +88,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        withDockerRegistry("$REGISTRY", 'registry-login') {
+                        withDockerRegistry(url: '$REGISTRY', credentialsId: 'registry-login') {
                             dockerImage.push('$BUILD_ID')
                         }
                     }
