@@ -9,6 +9,7 @@ pipeline {
         REGISTRY = credentials("registry")
         REGISTRY_USERNAME = credentials("registry-username")
         REGISTRY_PASSWORD = credentials("registry-password")
+        dockerImage = ''
     }
     options { skipDefaultCheckout(true) }
     
@@ -76,7 +77,9 @@ pipeline {
         stage('Build a Docker image') {
             steps {
                 container('docker') {
-                    sh "docker build -t tennis-mauel-user-api:${env.BUILD_ID} ."
+                    script {
+                        dockerImage = docker.build('tennis-mauel-user-api')
+                    }
                 }
             }
         }
@@ -84,9 +87,11 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh('docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD')
-                    sh('docker tag tennis-mauel-user-api:$BUILD_ID $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
-                    sh('docker push $REGISTRY/tennis-mauel-user-api:$BUILD_ID')
+                    script {
+                        withDockerRegistry('$REGISTRY', 'registry-login') {
+                            dockerImage.push('$BUILD_ID')
+                        }
+                    }
                 }
             }
         }
