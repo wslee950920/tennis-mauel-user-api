@@ -11,7 +11,7 @@ pipeline {
         REGISTRY_PASSWORD = credentials("registry-password")
     }
     options { skipDefaultCheckout(true) }
-    def dockerImage = ''
+    dockerImage = ''
     
     stages {
         stage('Start') {
