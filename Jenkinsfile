@@ -1,3 +1,5 @@
+def dockerImage = ''
+
 pipeline {
     agent {
         kubernetes {
@@ -11,7 +13,6 @@ pipeline {
         REGISTRY_PASSWORD = credentials("registry-password")
     }
     options { skipDefaultCheckout(true) }
-    dockerImage = ''
     
     stages {
         stage('Start') {
