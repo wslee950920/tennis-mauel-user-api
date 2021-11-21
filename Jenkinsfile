@@ -75,7 +75,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        dockerImage = docker.build('tennis-mauel-user-api')
+                        dockerImage = docker.build('registry:5000/tennis-mauel-user-api')
                     }
                 }
             }
