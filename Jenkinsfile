@@ -75,7 +75,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        dockerImage = docker.build('registry:5000/tennis-mauel-user-api')
+                        dockerImage = docker.build('tennis-mauel-user-api')
                     }
                 }
             }
@@ -85,7 +85,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        withDockerRegistry(url: 'https://registry:5000', credentialsId: 'registry-login') {
+                        withDockerRegistry(url: 'https://registry:5000/tennis-mauel-user-api', credentialsId: 'registry-login') {
                             dockerImage.push('$BUILD_ID')
                         }
                     }
