@@ -92,9 +92,9 @@ pipeline {
                             //->registry:00
                             dockerImage.push()
                         }
-
-                        sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
                     }
+
+                    sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
                 }
             }
         }
