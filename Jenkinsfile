@@ -1,5 +1,3 @@
-def dockerImage = ''
-
 pipeline {
     agent {
         kubernetes {
@@ -7,12 +5,10 @@ pipeline {
             defaultContainer 'jnlp'
         }
     }
-    environment {
-        REGISTRY = credentials("registry")
-        REGISTRY_USERNAME = credentials("registry-username")
-        REGISTRY_PASSWORD = credentials("registry-password")
-    }
     options { skipDefaultCheckout(true) }
+    environment {
+        dockerImage=''
+    }
     
     stages {
         stage('Start') {
@@ -79,7 +75,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        dockerImage = docker.build('tennis-mauel-user-api')
+                        dockerImage = docker.build('registry:5000/tennis-mauel-user-api')
                     }
                 }
             }
