@@ -78,18 +78,16 @@ pipeline {
         }
 
         stage('Push a Docker image') {
-            steps {
-                container('docker') {
-                    stage('Push') {
-                        environment {
-                            DOCKER_CERT_PATH = credentials('docker-registry')
-                        }
-
-                        sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
-
-                        sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
-                        sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
+            container('docker') {
+                stage('Push') {
+                    environment {
+                        DOCKER_CERT_PATH = credentials('docker-registry')
                     }
+
+                    sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
+
+                    sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                    sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
                 }
             }
         }
