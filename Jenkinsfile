@@ -10,11 +10,11 @@ pipeline {
         // see the discussion about this in PR 77 and PR 52: 
         // https://github.com/jenkinsci/docker-commons-plugin/pull/77#discussion_r280910822
         // https://github.com/jenkinsci/docker-commons-plugin/pull/52
-        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+        docker 'docker'
     }
     options { skipDefaultCheckout(true) }
     environment {
-        DOCKER_CERT_PATH = credentials('registry-login')
+        DOCKER_CERT_PATH = credentials('docker-registry')
     }
     
     stages {
@@ -80,21 +80,17 @@ pipeline {
 
         stage('Build a Docker image') {
             steps {
-                container('docker') {
-                    sh 'docker build -t tennis-mauel-user-api .'
-                    sh 'docker tag tennis-mauel-user-api registry:5000/tennis-mauel-user-api:$BUILD_ID'
-                }
+                sh 'docker build -t tennis-mauel-user-api:$BUILD_ID .'
+                sh 'docker tag tennis-mauel-user-api:$BUILD_ID registry:5000/tennis-mauel-user-api:$BUILD_ID'
             }
         }
 
         stage('Push a Docker image') {
             steps {
-                container('docker') {
-                    sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
 
-                    sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
-                    sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
-                }
+                sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
             }
         }
     }
