@@ -79,11 +79,11 @@ pipeline {
 
         stage('Push a Docker image') {
             steps {
+                environment {
+                    DOCKER_CERT_PATH = credentials('docker-registry')
+                }
+
                 container('docker') {
-                    environment {
-                        DOCKER_CERT_PATH = credentials('docker-registry')
-                    }
-                    
                     sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
 
                     sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
