@@ -6,6 +6,9 @@ pipeline {
         }
     }
     options { skipDefaultCheckout(true) }
+    environment {
+        dockerImage=''
+    }
     
     stages {
         stage('Start') {
@@ -71,23 +74,27 @@ pipeline {
         stage('Build a Docker image') {
             steps {
                 container('docker') {
-                    sh 'docker build -t tennis-mauel-user-api:$BUILD_ID .'
-                    sh 'docker tag tennis-mauel-user-api:$BUILD_ID registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                    script {
+                        dockerImage = docker.build('registry:5000/tennis-mauel-user-api:$BUILD_ID')
+                    }
                 }
             }
         }
 
         stage('Push a Docker image') {
-            container('docker') {
-                stage('Push') {
-                    environment {
-                        DOCKER_CERT_PATH = credentials('docker-registry')
+            steps {
+                container('docker') {
+                    script {
+                        withDockerRegistry(url: 'https://registry:5000', credentialsId: 'registry-login') {
+                            //push를 통한 태깅은 이미지 이름에 콜론이 있으면 첫번 째 콜론을 기준으로 자르고 뒤에 태그를 붙인다.
+                            //registry:5000/tennis-mauel-user-api
+                            //->dockerImage.push('$BUILD_ID')
+                            //->registry:00
+                            dockerImage.push()
+                        }
                     }
 
-                    sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
-
                     sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
-                    sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
                 }
             }
         }
