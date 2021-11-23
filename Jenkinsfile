@@ -80,7 +80,7 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    stage {
+                    stage('Push') {
                         environment {
                             DOCKER_CERT_PATH = credentials('docker-registry')
                         }
