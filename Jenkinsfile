@@ -5,17 +5,7 @@ pipeline {
             defaultContainer 'jnlp'
         }
     }
-    tools {
-        // a bit ugly because there is no `@Symbol` annotation for the DockerTool
-        // see the discussion about this in PR 77 and PR 52: 
-        // https://github.com/jenkinsci/docker-commons-plugin/pull/77#discussion_r280910822
-        // https://github.com/jenkinsci/docker-commons-plugin/pull/52
-        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
-    }
     options { skipDefaultCheckout(true) }
-    environment {
-        DOCKER_CERT_PATH = credentials('docker-registry')
-    }
     
     stages {
         stage('Start') {
@@ -80,17 +70,25 @@ pipeline {
 
         stage('Build a Docker image') {
             steps {
-                sh 'docker build -t tennis-mauel-user-api:$BUILD_ID .'
-                sh 'docker tag tennis-mauel-user-api:$BUILD_ID registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                container('docker') {
+                    sh 'docker build -t tennis-mauel-user-api:$BUILD_ID .'
+                    sh 'docker tag tennis-mauel-user-api:$BUILD_ID registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                }
             }
         }
 
         stage('Push a Docker image') {
             steps {
-                sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                container('docker') {
+                    environment {
+                        DOCKER_CERT_PATH = credentials('docker-registry')
+                    }
+                    
+                    sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
 
-                sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
-                sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
+                    sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                    sh 'docker rmi tennis-mauel-user-api:$BUILD_ID'
+                }
             }
         }
     }
