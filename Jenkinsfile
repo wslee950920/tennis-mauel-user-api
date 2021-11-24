@@ -60,12 +60,6 @@ pipeline {
                     sh 'gradle jacocoTestCoverageVerification'
                 }
             }
-
-            post {
-                always {
-                    
-                }
-            }
         }
 
         stage('Build a Gradle project') {
@@ -112,7 +106,7 @@ pipeline {
                 classPattern: '**/build/classes',
                 sourcePattern: 'src/main/java',
                 exclusionPattern: 'src/test*',
-                runAlawys: true
+                runAlways: true
             )
         }
     }
