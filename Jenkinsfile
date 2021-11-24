@@ -57,14 +57,9 @@ pipeline {
 
         stage('Code Coverage') {
             steps {
-                jacoco( 
-                    execPattern: '**/build/jacoco/*.exec',
-                    classPattern: '**/build/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: 'src/test*',
-                    minimumMethodCoverage: '60',
-                    minimumLineCoverage: '60'
-                )
+                container('gradle') {
+                    sh 'gradle jacocoTestCoverageVerification'
+                }
             }
         }
 
@@ -107,6 +102,12 @@ pipeline {
 
         always {
             junit '**/build/test-results/test/*.xml'
+            jacoco( 
+                    execPattern: '**/build/jacoco/*.exec',
+                    classPattern: '**/build/classes',
+                    sourcePattern: 'src/main/java',
+                    exclusionPattern: 'src/test*',
+                )
         }
     }
 }
