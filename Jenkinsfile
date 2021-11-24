@@ -61,12 +61,10 @@ pipeline {
                     execPattern: '**/build/jacoco/*.exec',
                     classPattern: '**/build/classes',
                     sourcePattern: 'src/main/java',
-                    exclusionPattern: 'src/test*'
+                    exclusionPattern: 'src/test*',
+                    minimumMethodCoverage: 0.6,
+                    minimumLineCoverage: 0.6
                 )
-
-                container('gradle') {
-                    sh 'gradle jacocoTestCoverageVerification'
-                }
             }
         }
 
