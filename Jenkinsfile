@@ -63,24 +63,23 @@ pipeline {
             }    
         }
 
+        stage('Code Coverage') {
+            steps {
+                container('gradle2') {
+                    sh 'gradle jacocoTestReport'
+                }
+            }
+        }
+
         stage('Make reports') {
             steps {
-                script {
-                    try {
-                        container('gradle2') {
-                            sh 'gradle jacocoTestReport'
-                        }
-                    } finally {
-                        junit '**/build/test-results/test/*.xml'
-                        jacoco( 
-                            execPattern: '**/build/jacoco/*.exec',
-                            classPattern: '**/build/classes',
-                            sourcePattern: 'src/main/java',
-                            exclusionPattern: 'src/test*'
-                        )
-                    }
-                    
-                }
+                junit '**/build/test-results/test/*.xml'
+                jacoco( 
+                    execPattern: '**/build/jacoco/*.exec',
+                    classPattern: '**/build/classes',
+                    sourcePattern: 'src/main/java',
+                    exclusionPattern: 'src/test*'
+                )
             }
         }
 
