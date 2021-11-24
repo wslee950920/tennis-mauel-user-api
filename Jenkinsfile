@@ -7,7 +7,6 @@ pipeline {
     }
     options { skipDefaultCheckout(true) }
     environment {
-        dockerImage=''
         REGISTRY_CERTS = credentials('docker-registry')
     }
     
