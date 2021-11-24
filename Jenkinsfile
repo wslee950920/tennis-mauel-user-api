@@ -40,41 +40,34 @@ pipeline {
             }
         }
 
-
-        stage('SonarQube&Jacoco') {
-            parallel {
-                stage('SonarQube Analysis') {
-                    steps {
-                        container('gradle') {
-                            withSonarQubeEnv('sonarqube') {
-                                sh "gradle sonarqube"
-                            }
-                        }
-
-                        timeout(time: 10, unit: 'MINUTES') {
-                            waitForQualityGate abortPipeline: true
-                        }
+        stage('SonarQube Analysis') {
+            steps {
+                container('gradle') {
+                    withSonarQubeEnv('sonarqube') {
+                        sh "gradle sonarqube"
                     }
                 }
 
-                stage('Code Coverage') {
-                    steps {
-                        jacoco( 
-                            execPattern: '**/build/jacoco/*.exec',
-                            classPattern: '**/build/classes',
-                            sourcePattern: 'src/main/java',
-                            exclusionPattern: 'src/test*',
-                        )
-
-                        container('gradle') {
-                            sh 'gradle jacocoTestCoverageVerification'
-                        }
-                    }
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
 
-        
+        stage('Code Coverage') {
+            steps {
+                jacoco( 
+                    execPattern: '**/build/jacoco/*.exec',
+                    classPattern: '**/build/classes',
+                    sourcePattern: 'src/main/java',
+                    exclusionPattern: 'src/test*',
+                )
+
+                container('gradle') {
+                    sh 'gradle jacocoTestCoverageVerification'
+                }
+            }
+        }
 
         stage('Build a Gradle project') {
             steps {
