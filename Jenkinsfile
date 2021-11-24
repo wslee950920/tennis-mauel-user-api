@@ -28,7 +28,7 @@ pipeline {
                 stage('Unit Test') {
                     steps {
                         container('gradle') {
-                            sh 'gradle test'
+                            sh 'gradle clean test'
                         }
                     }
                 }
@@ -37,7 +37,7 @@ pipeline {
                     steps {
                         container('gradle2') {
                             //TODO: 추후 통합테스트로 변경
-                            sh 'gradle test'
+                            sh 'gradle clean test'
                         }
                     }
                 }
