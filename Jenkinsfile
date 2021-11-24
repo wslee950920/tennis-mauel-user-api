@@ -59,6 +59,16 @@ pipeline {
             steps {
                 container('gradle') {
                     sh 'gradle jacocoTestReport'
+                }
+
+                jacoco( 
+                    execPattern: '**/build/jacoco/*.exec',
+                    classPattern: '**/build/classes',
+                    sourcePattern: 'src/main/java',
+                    exclusionPattern: 'src/test*'
+                )
+
+                container('gradle') {
                     sh 'gradle jacocoTestCoverageVerification'
                 }
             }
@@ -103,12 +113,6 @@ pipeline {
 
         always {
             junit '**/build/test-results/test/*.xml'
-            jacoco( 
-                execPattern: '**/build/jacoco/*.exec',
-                classPattern: '**/build/classes',
-                sourcePattern: 'src/main/java',
-                exclusionPattern: 'src/test*'
-            )
         }
     }
 }
