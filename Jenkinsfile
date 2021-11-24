@@ -24,73 +24,51 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                container('gradle') {
-                    withSonarQubeEnv('sonarqube') {
-                        sh "gradle sonarqube"
-                    }
-                }
-            }
-        }
-
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-
-        stage('Test a Gradle project') {    
-            steps {
-                script {
-                    try {
-                        parallel {
-                            stage('Unit Test') {
-                                steps {
-                                    container('gradle') {
-                                        sh 'gradle test'
-                                    }
-                                }
-                            }
-
-                            stage('Integration Test') {        
-                                steps {
-                                    container('gradle2') {
-                                        //TODO: 추후 통합테스트로 변경
-                                        sh 'gradle test'
-                                    }
-                                }
+        stage('SonarQube&Jacoco') {
+            parallel {
+                stage('SonarQube Analysis') {
+                    steps {
+                        container('gradle') {
+                            withSonarQubeEnv('sonarqube') {
+                                sh "gradle sonarqube"
                             }
                         }
-                    } finally {
-                        steps {
-                            junit '**/build/test-results/test/*.xml'
+
+                        timeout(time: 10, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
                         }
                     }
                 }
-            }
-        }
 
-        stage('Code Coverage') {
-            steps {
-                script {
-                    try {
+                stage('Code Coverage') {
+                    steps {
                         container('gradle2') {
                             sh 'gradle jacocoTestReport'
                         }
-                    } finally {
-                        jacoco( 
-                            execPattern: '**/build/jacoco/*.exec',
-                            classPattern: '**/build/classes',
-                            sourcePattern: 'src/main/java',
-                            exclusionPattern: 'src/test*'
-                        )
                     }
                 }
-                
             }
+        }        
+
+        stage('Test a Gradle project') {    
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        container('gradle') {
+                            sh 'gradle test'
+                        }
+                    }
+                }
+
+                stage('Integration Test') {        
+                    steps {
+                        container('gradle2') {
+                            //TODO: 추후 통합테스트로 변경
+                            sh 'gradle test'
+                        }
+                    }
+                }
+            }    
         }
 
         stage('Build a Gradle project') {
@@ -125,8 +103,19 @@ pipeline {
         success {
             slackSend (channel: '#jenkins', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
+
         failure {
             slackSend (channel: '#jenkins', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+
+        always {
+            junit '**/build/test-results/test/*.xml'
+            jacoco( 
+                execPattern: '**/build/jacoco/*.exec',
+                classPattern: '**/build/classes',
+                sourcePattern: 'src/main/java',
+                exclusionPattern: 'src/test*'
+            )
         }
     }
 }
