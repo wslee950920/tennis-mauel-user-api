@@ -67,12 +67,19 @@ pipeline {
             steps {
                 script {
                     try {
-                        container('gradle') {
+                        container('gradle2') {
                             sh 'gradle jacocoTestReport'
-                        } 
+                        }
                     } finally {
                         junit '**/build/test-results/test/*.xml'
+                        jacoco( 
+                            execPattern: '**/build/jacoco/*.exec',
+                            classPattern: '**/build/classes',
+                            sourcePattern: 'src/main/java',
+                            exclusionPattern: 'src/test*'
+                        )
                     }
+                    
                 }
             }
         }
