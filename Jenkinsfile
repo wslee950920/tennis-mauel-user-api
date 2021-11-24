@@ -62,7 +62,9 @@ pipeline {
                 }
             }    
 
-            junit '**/build/test-results/test/*.xml'
+            steps {
+                junit '**/build/test-results/test/*.xml'
+            }
         }
 
         stage('Code Coverage') {
