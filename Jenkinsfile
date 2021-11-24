@@ -21,6 +21,27 @@ pipeline {
             steps {
                 git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
             }
+        }      
+
+        stage('Test a Gradle project') {    
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        container('gradle') {
+                            sh 'gradle test'
+                        }
+                    }
+                }
+
+                stage('Integration Test') {        
+                    steps {
+                        container('gradle2') {
+                            //TODO: 추후 통합테스트로 변경
+                            sh 'gradle test'
+                        }
+                    }
+                }
+            }    
         }
 
         stage('SonarQube&Jacoco') {
@@ -47,28 +68,7 @@ pipeline {
                     }
                 }
             }
-        }        
-
-        stage('Test a Gradle project') {    
-            parallel {
-                stage('Unit Test') {
-                    steps {
-                        container('gradle') {
-                            sh 'gradle test'
-                        }
-                    }
-                }
-
-                stage('Integration Test') {        
-                    steps {
-                        container('gradle2') {
-                            //TODO: 추후 통합테스트로 변경
-                            sh 'gradle test'
-                        }
-                    }
-                }
-            }    
-        }
+        }  
 
         stage('Build a Gradle project') {
             steps {
