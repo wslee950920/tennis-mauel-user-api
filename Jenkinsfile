@@ -23,9 +23,7 @@ pipeline {
             }
         }      
 
-        stage('Test a Gradle project') {    
-            parallel {
-                stage('Unit Test') {
+        stage('Unit Test') {
                     steps {
                         container('gradle') {
                             sh 'gradle test'
@@ -41,8 +39,6 @@ pipeline {
                         }
                     }
                 }
-            }    
-        }
 
         stage('SonarQube&Jacoco') {
             parallel {
