@@ -42,6 +42,14 @@ pipeline {
             }
         }
 
+        stage('Code Coverage') {
+            steps {
+                container('gradle2') {
+                    sh 'gradle jacocoTestReport'
+                }
+            }
+        }
+
         stage('Test a Gradle project') {    
             parallel {
                 stage('Unit Test') {
@@ -61,14 +69,6 @@ pipeline {
                     }
                 }
             }    
-        }
-
-        stage('Code Coverage') {
-            steps {
-                container('gradle2') {
-                    sh 'gradle jacocoTestReport'
-                }
-            }
         }
 
         stage('Make reports') {
