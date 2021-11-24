@@ -8,7 +8,6 @@ class UserApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("Unit Test");
 	}
 
 }

@@ -41,27 +41,6 @@ test {
 	useJUnitPlatform()
 }
 
-sourceSets {
-    integration {
-        java.srcDir "$projectDir/src/integration/java"
-        resources.srcDir "$projectDir/src/integration/resources"
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
-}
-
-configurations {
-    integrationImplementation.extendsFrom implementation
-    integrationImplementation.extendsFrom testImplementation
-}
-
-task integrationTest(type: Test) {
-    testClassesDirs = sourceSets.integration.output.classesDirs
-    classpath = sourceSets.integration.runtimeClasspath
-}
-
-check.dependsOn integrationTest
-
 sonarqube {
   properties {
     property "sonar.projectKey", "tennis-mauel-user-api"
