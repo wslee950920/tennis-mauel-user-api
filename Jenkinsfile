@@ -43,27 +43,31 @@ pipeline {
         }
 
         stage('Test a Gradle project') {    
-            parallel {
-                stage('Unit Test') {
-                    steps {
-                        container('gradle') {
-                            sh 'gradle test'
+            script {
+                try {
+                    parallel {
+                        stage('Unit Test') {
+                            steps {
+                                container('gradle') {
+                                    sh 'gradle test'
+                                }
+                            }
+                        }
+
+                        stage('Integration Test') {        
+                            steps {
+                                container('gradle2') {
+                                    //TODO: 추후 통합테스트로 변경
+                                    sh 'gradle test'
+                                }
+                            }
                         }
                     }
-                }
-
-                stage('Integration Test') {        
+                } finally {
                     steps {
-                        container('gradle2') {
-                            //TODO: 추후 통합테스트로 변경
-                            sh 'gradle test'
-                        }
+                        junit '**/build/test-results/test/*.xml'
                     }
                 }
-            }    
-
-            steps {
-                junit '**/build/test-results/test/*.xml'
             }
         }
 
