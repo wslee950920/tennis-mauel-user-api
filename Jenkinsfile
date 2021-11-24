@@ -62,8 +62,8 @@ pipeline {
                     classPattern: '**/build/classes',
                     sourcePattern: 'src/main/java',
                     exclusionPattern: 'src/test*',
-                    minimumMethodCoverage: 0.6,
-                    minimumLineCoverage: 0.6
+                    minimumMethodCoverage: '60',
+                    minimumLineCoverage: '60'
                 )
             }
         }
