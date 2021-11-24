@@ -37,8 +37,6 @@ pipeline {
                     //TODO: 추후 통합테스트로 변경
                     sh 'gradle test'
                 }
-
-                junit '**/build/test-results/test/*.xml'
             }
         }
 
@@ -61,14 +59,8 @@ pipeline {
             steps {
                 container('gradle') {
                     sh 'gradle jacocoTestReport'
+                    sh 'gradle jacocoTestCoverageVerification'
                 }
-
-                jacoco( 
-                    execPattern: '**/build/jacoco/*.exec',
-                    classPattern: '**/build/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: 'src/test*'
-                )
             }
         }
 
@@ -107,6 +99,16 @@ pipeline {
 
         failure {
             slackSend (channel: '#jenkins', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+
+        always {
+            junit '**/build/test-results/test/*.xml'
+            jacoco( 
+                execPattern: '**/build/jacoco/*.exec',
+                classPattern: '**/build/classes',
+                sourcePattern: 'src/main/java',
+                exclusionPattern: 'src/test*'
+            )
         }
     }
 }

@@ -57,8 +57,6 @@ jacocoTestReport {
         xml.enabled true
         csv.enabled true
     }
-
-    finalizedBy 'jacocoTestCoverageVerification'
 }
 
 jacocoTestCoverageVerification {
@@ -70,13 +68,13 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.60
             }
 
             limit {
                 counter = 'METHOD'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.60
             }
         }
     }
