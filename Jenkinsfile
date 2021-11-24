@@ -28,7 +28,7 @@ pipeline {
                 stage('Unit Test') {
                     steps {
                         container('gradle') {
-                            sh 'gradle test --no-daemon'
+                            sh 'gradle test'
                         }
                     }
                 }
@@ -37,7 +37,7 @@ pipeline {
                     steps {
                         container('gradle2') {
                             //TODO: 추후 통합테스트로 변경
-                            sh 'gradle test --no-daemon'
+                            sh 'gradle integrationTest'
                         }
                     }
                 }
@@ -50,7 +50,7 @@ pipeline {
                     steps {
                         container('gradle') {
                             withSonarQubeEnv('sonarqube') {
-                                sh "gradle sonarqube --no-daemon"
+                                sh "gradle sonarqube"
                             }
                         }
 
@@ -63,7 +63,7 @@ pipeline {
                 stage('Code Coverage') {
                     steps {
                         container('gradle2') {
-                            sh 'gradle jacocoTestReport --no-daemon'
+                            sh 'gradle jacocoTestReport'
                         }
                     }
                 }
@@ -73,7 +73,7 @@ pipeline {
         stage('Build a Gradle project') {
             steps {
                 container('gradle') {
-                    sh 'gradle build -x test --no-daemon'
+                    sh 'gradle build -x test'
                 }
             }
         }

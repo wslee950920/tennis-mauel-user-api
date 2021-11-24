@@ -8,7 +8,7 @@ class UserApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("Unit Test");
+		System.out.println("Integration Test");
 	}
 
 }
