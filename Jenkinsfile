@@ -56,15 +56,19 @@ pipeline {
 
         stage('Code Coverage') {
             steps {
-                jacoco( 
-                    execPattern: '**/build/jacoco/*.exec',
-                    classPattern: '**/build/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: 'src/test*',
-                )
-
                 container('gradle') {
                     sh 'gradle jacocoTestCoverageVerification'
+                }
+            }
+
+            post {
+                always {
+                    jacoco( 
+                        execPattern: '**/build/jacoco/*.exec',
+                        classPattern: '**/build/classes',
+                        sourcePattern: 'src/main/java',
+                        exclusionPattern: 'src/test*',
+                    )
                 }
             }
         }
