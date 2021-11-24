@@ -40,28 +40,41 @@ pipeline {
             }
         }
 
-        
-        stage('SonarQube Analysis') {
-            steps {
-                container('gradle') {
-                    withSonarQubeEnv('sonarqube') {
-                        sh "gradle sonarqube"
+
+        stage('SonarQube&Jacoco') {
+            parallel {
+                stage('SonarQube Analysis') {
+                    steps {
+                        container('gradle') {
+                            withSonarQubeEnv('sonarqube') {
+                                sh "gradle sonarqube"
+                            }
+                        }
+
+                        timeout(time: 10, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
+                        }
                     }
                 }
 
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                stage('Code Coverage') {
+                    steps {
+                        jacoco( 
+                            execPattern: '**/build/jacoco/*.exec',
+                            classPattern: '**/build/classes',
+                            sourcePattern: 'src/main/java',
+                            exclusionPattern: 'src/test*',
+                        )
+
+                        container('gradle') {
+                            sh 'gradle jacocoTestCoverageVerification'
+                        }
+                    }
                 }
             }
         }
 
-        stage('Code Coverage') {
-            steps {
-                container('gradle') {
-                    sh 'gradle jacocoTestCoverageVerification'
-                }
-            }
-        }
+        
 
         stage('Build a Gradle project') {
             steps {
@@ -102,12 +115,6 @@ pipeline {
 
         always {
             junit '**/build/test-results/test/*.xml'
-            jacoco( 
-                    execPattern: '**/build/jacoco/*.exec',
-                    classPattern: '**/build/classes',
-                    sourcePattern: 'src/main/java',
-                    exclusionPattern: 'src/test*',
-                )
         }
     }
 }
