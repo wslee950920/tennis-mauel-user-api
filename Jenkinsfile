@@ -8,6 +8,7 @@ pipeline {
     options { skipDefaultCheckout(true) }
     environment {
         dockerImage=''
+        REGISTRY_CERTS = credentials('docker-registry')
     }
     
     stages {
@@ -84,9 +85,7 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    environment {
-                        DOCKER_CERT_PATH = credentials('docker-registry')
-                    }
+                    sh 'docker login -u $REGISTRY_CERTS_USR -p $REGISTRY_CERTS_PSW'
                 }
             }
         }
