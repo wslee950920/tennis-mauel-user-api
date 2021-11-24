@@ -39,7 +39,6 @@ dependencies {
 
 test {
 	useJUnitPlatform()
-	finalizedBy jacocoTestReport
 }
 
 sonarqube {
@@ -53,7 +52,6 @@ jacoco {
 }
 
 jacocoTestReport {
-    dependsOn test
     reports {
         html.enabled true
         xml.enabled true
