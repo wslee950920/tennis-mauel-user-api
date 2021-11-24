@@ -66,8 +66,13 @@ pipeline {
         stage('Make reports') {
             steps {
                 container('gradle') {
-                    sh 'gradle jacocoTestReport'
-                    junit '**/build/test-results/test/*.xml'
+                    script {
+                        try {
+                            sh 'gradle jacocoTestReport'
+                        } finally {
+                            junit '**/build/test-results/test/*.xml'
+                        }
+                    }
                 }
             }
         }
