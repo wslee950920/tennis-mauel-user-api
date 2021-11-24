@@ -24,47 +24,44 @@ pipeline {
         }      
 
         stage('Unit Test') {
-                    steps {
-                        container('gradle') {
-                            sh 'gradle test'
-                        }
-                    }
-                }
-
-                stage('Integration Test') {        
-                    steps {
-                        container('gradle2') {
-                            //TODO: 추후 통합테스트로 변경
-                            sh 'gradle test'
-                        }
-                    }
-                }
-
-        stage('SonarQube&Jacoco') {
-            parallel {
-                stage('SonarQube Analysis') {
-                    steps {
-                        container('gradle') {
-                            withSonarQubeEnv('sonarqube') {
-                                sh "gradle sonarqube"
-                            }
-                        }
-
-                        timeout(time: 10, unit: 'MINUTES') {
-                            waitForQualityGate abortPipeline: true
-                        }
-                    }
-                }
-
-                stage('Code Coverage') {
-                    steps {
-                        container('gradle2') {
-                            sh 'gradle jacocoTestReport'
-                        }
-                    }
+            steps {
+                container('gradle') {
+                    sh 'gradle test'
                 }
             }
-        }  
+        }
+
+        stage('Integration Test') {        
+            steps {
+                container('gradle') {
+                    //TODO: 추후 통합테스트로 변경
+                    sh 'gradle test'
+                }
+            }
+        }
+
+        
+        stage('SonarQube Analysis') {
+            steps {
+                container('gradle') {
+                    withSonarQubeEnv('sonarqube') {
+                        sh "gradle sonarqube"
+                    }
+                }
+
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Code Coverage') {
+            steps {
+                container('gradle') {
+                    sh 'gradle jacocoTestReport'
+                }
+            }
+        }
 
         stage('Build a Gradle project') {
             steps {
@@ -104,13 +101,13 @@ pipeline {
         }
 
         always {
+            junit '**/build/test-results/test/*.xml'
             jacoco( 
                 execPattern: '**/build/jacoco/*.exec',
                 classPattern: '**/build/classes',
                 sourcePattern: 'src/main/java',
                 exclusionPattern: 'src/test*'
             )
-            junit '**/build/test-results/test/*.xml'
         }
     }
 }
