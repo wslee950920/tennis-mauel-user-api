@@ -75,9 +75,7 @@ pipeline {
         stage('Build a Docker image') {
             steps {
                 container('docker') {
-                    script {
-                        dockerImage = docker.build('registry:5000/tennis-mauel-user-api:$BUILD_ID')
-                    }
+                    sh 'docker build -t registry:5000/tennis-mauel-user-api:$BUILD_ID .'
                 }
             }
         }
@@ -85,7 +83,10 @@ pipeline {
         stage('Push a Docker image') {
             steps {
                 container('docker') {
-                    sh 'docker login -u $REGISTRY_CERTS_USR -p $REGISTRY_CERTS_PSW'
+                    sh 'echo $REGISTRY_CERTS_PSW | docker login registry:5000 -u $REGISTRY_CERTS_USR --password-stdin'
+                    sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
+
+                    sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
                 }
             }
         }
