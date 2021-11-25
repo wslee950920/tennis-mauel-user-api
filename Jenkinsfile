@@ -35,7 +35,7 @@ pipeline {
 
                 stage('Integration Test') {        
             steps {
-                container('gradle') {
+                container('gradle2') {
                     //TODO: 추후 통합테스트로 변경
                     sh 'gradle test'
                 }

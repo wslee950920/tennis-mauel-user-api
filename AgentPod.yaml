@@ -18,6 +18,20 @@ spec:
           cpu: 1
           memory: "1024Mi"
 
+    - image: gradle:7.2.0-jdk11-alpine
+      name: gradle2
+      command:
+        - sleep
+      args:
+        - 99d
+      resources:
+        requests:
+          cpu: "250m"
+          memory: "256Mi"
+        limits:
+          cpu: 1
+          memory: "1024Mi"
+
     - image: docker:latest
       name: docker
       command:
