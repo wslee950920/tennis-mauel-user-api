@@ -105,8 +105,7 @@ pipeline {
                 execPattern: '**/build/jacoco/*.exec',
                 classPattern: '**/build/classes',
                 sourcePattern: 'src/main/java',
-                exclusionPattern: 'src/test*',
-                sourceExclusionPattern: 'src/test/java',
+                exclusionPattern: 'src/test/**',
                 runAlways: true
             )
         }
