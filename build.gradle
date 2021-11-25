@@ -44,10 +44,10 @@ test {
 sonarqube {
   properties {
     property "sonar.projectKey", "tennis-mauel-user-api"
-	property 'sonar.coverage.jacoco.xmlReportPaths', '${buildDir}/reports/jacoco/test/jacocoTestReport.xml'
-    property 'sonar.java.binaries', "${buildDir}/classes"
+	property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+    property 'sonar.java.binaries', 'build/classes'
     property 'sonar.test.inclusions', '**/*Test.java'
-	property 'sonar.exclusions', '**/test/**'
+	property 'sonar.exclusions', '**/test/**, **/resources/**'
   }
 }
 
