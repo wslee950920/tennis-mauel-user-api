@@ -23,9 +23,7 @@ pipeline {
             }
         }      
 
-        stage('Test') {
-            parallel {
-                stage('Unit Test') {
+        stage('Unit Test') {
             steps {
                 container('gradle') {
                     sh 'gradle test'
@@ -33,19 +31,14 @@ pipeline {
             }
         }
 
-                stage('Integration Test') {        
+        stage('Integration Test') {        
             steps {
-                container('gradle2') {
+                container('gradle') {
                     //TODO: 추후 통합테스트로 변경
                     sh 'gradle test'
                 }
             }
         }
-            }
-        }
-        
-
-        
 
         stage('Build a Gradle project') {
             steps {
