@@ -52,7 +52,6 @@ pipeline {
             steps {
                 container('gradle') {
                     withSonarQubeEnv('sonarqube') {
-                        sh 'ls build'
                         sh "gradle sonarqube"
                     }
                 }
