@@ -52,7 +52,7 @@ pipeline {
             steps {
                 container('gradle') {
                     withSonarQubeEnv('sonarqube') {
-                        sh "ls $buildDir"
+                        sh 'ls build'
                         sh "gradle sonarqube"
                     }
                 }
