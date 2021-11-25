@@ -40,6 +40,14 @@ pipeline {
             }
         }
 
+        stage('Build a Gradle project') {
+            steps {
+                container('gradle') {
+                    sh 'gradle build -x test'
+                }
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 container('gradle') {
@@ -58,14 +66,6 @@ pipeline {
             steps {
                 container('gradle') {
                     sh 'gradle jacocoTestCoverageVerification'
-                }
-            }
-        }
-
-        stage('Build a Gradle project') {
-            steps {
-                container('gradle') {
-                    sh 'gradle build -x test'
                 }
             }
         }
