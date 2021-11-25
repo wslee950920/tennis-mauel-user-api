@@ -106,6 +106,7 @@ pipeline {
                 classPattern: '**/build/classes',
                 sourcePattern: 'src/main/java',
                 exclusionPattern: 'src/test*',
+                sourceExclusionPattern: 'src/test/java',
                 runAlways: true
             )
         }
