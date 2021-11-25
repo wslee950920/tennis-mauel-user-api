@@ -103,9 +103,9 @@ pipeline {
             junit '**/build/test-results/test/*.xml'
             jacoco( 
                 execPattern: '**/build/jacoco/*.exec',
-                classPattern: '**/build/classes',
-                sourcePattern: '**/src/main/java',
-                exclusionPattern: '**/src/test/java',
+                classPattern: '**/build/classes/main',
+                sourcePattern: 'src/main/java',
+                exclusionPattern: 'src/test*',
                 runAlways: true
             )
         }
