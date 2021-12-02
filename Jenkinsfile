@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            yamlFile 'AgentPod.yaml'
+            yamlFile 'menifests/agents.yaml'
             defaultContainer 'jnlp'
         }
     }
@@ -85,6 +85,14 @@ pipeline {
                     sh 'docker push registry:5000/tennis-mauel-user-api:$BUILD_ID'
 
                     sh 'docker rmi registry:5000/tennis-mauel-user-api:$BUILD_ID'
+                }
+            }
+        }
+
+        stage('Deploy an App') {
+            steps {
+                script {
+                    kubernetesDeploy(configs: 'pods/deployment.yaml', kubeconfigId: "k3s-config")
                 }
             }
         }

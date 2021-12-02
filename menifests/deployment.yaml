@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api
+spec:
+  replicas: 2
+  minReadySeconds: 60
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: user-api
+  template:
+    metadata:
+      labels:
+        app: user-api
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+      - name: user-api
+        image: registry.mauel.local:5000/tennis-mauel-user-api:${$BUILD_ID}
+        env:
+          - name: APPLICATION_PROFILE
+            value: stage
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 9090
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 9090
+          initialDelaySeconds: 60
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+          name: api
+        - containerPort: 9090
+          name: health
+        volumeMounts:
+          - mountPath: /config
+            name: config
+      volumes:
+        - name: config
+          secret:
+           secretName: application-yaml
