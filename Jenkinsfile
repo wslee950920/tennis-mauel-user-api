@@ -91,9 +91,8 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'ls -a'
-                    sh 'ls .kube'
-                    sh 'kubectl get node'
+                    sh 'chmod +x ./scripts/kubectl.sh'
+                    sh './scripts/kubectl.sh'
                 }
             }
         }
