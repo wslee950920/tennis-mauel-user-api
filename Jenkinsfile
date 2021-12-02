@@ -93,6 +93,7 @@ pipeline {
                 container('kubectl') {
                     sh 'ls -a'
                     sh 'ls .kube'
+                    sh 'kubectl get node'
                 }
             }
         }
