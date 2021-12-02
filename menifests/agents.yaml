@@ -40,7 +40,7 @@ spec:
           cpu: "500m"
           memory: "512Mi"
       volumeMounts:
-        - mountPath: ~/.kube/config
+        - mountPath: /.kube/config
           name: k3s-config
 
   volumes:
