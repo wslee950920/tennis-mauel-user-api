@@ -29,7 +29,7 @@ spec:
           cpu: 1
           memory: "1024Mi"
 
-    - image: kubectl:latest
+    - image: bitnami/kubectl:latest
       name: kubectl
       command:
         - sleep
