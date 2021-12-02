@@ -91,7 +91,6 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'echo $KUBECONFIG'
                     sh 'ls -l /root/.kube'
                     sh 'ls -l /root/.kube/config'
                     sh 'cat /root/.kube/config'
