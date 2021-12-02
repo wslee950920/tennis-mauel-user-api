@@ -39,7 +39,7 @@ spec:
           cpu: "500m"
           memory: "128Mi"
       volumeMounts:
-        - mountPath: /root/.kube
+        - mountPath: /root/.kube/config
           name: k3s-config
 
   volumes:
@@ -50,4 +50,5 @@ spec:
         
     - name: k3s-config
       hostPath:
-        path: /home/rocky/projects/k8s/k3s
+        path: /home/rocky/projects/k8s/k3s/config
+        type: File
