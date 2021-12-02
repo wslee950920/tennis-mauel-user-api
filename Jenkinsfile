@@ -91,7 +91,8 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'ls -a'
+                    sh 'ls -a ~'
+                    sh 'whoami'
                     sh 'kubectl get node'
                 }
             }
