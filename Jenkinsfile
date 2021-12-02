@@ -2,7 +2,6 @@ pipeline {
     agent {
         kubernetes {
             yamlFile 'menifests/agents.yaml'
-            defaultContainer 'jnlp'
         }
     }
     options { skipDefaultCheckout(true) }
@@ -91,8 +90,9 @@ pipeline {
 
         stage('Deploy an App') {
             steps {
-                script {
-                    kubernetesDeploy(configs: 'menifests/deployment.yaml', kubeconfigId: "k3s-config")
+                container('kubectl') {
+                    sh 'ls -a'
+                    sh 'ls .kube'
                 }
             }
         }
