@@ -48,6 +48,7 @@ spec:
       hostPath:
         path: /var/run/docker.sock
         type: Socket
+        
     - name: k3s-config
       hostPath:
         path: /home/rocky/projects/k8s/k3s/config
