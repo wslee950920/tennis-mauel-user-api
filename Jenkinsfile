@@ -90,7 +90,7 @@ pipeline {
 
         stage('Deploy an App') {
             steps {
-                container('kubectl') {
+                container('java8') {
                     script {
                         kubernetesDeploy(kubeconfigId: 'k3s-config', configs: 'menifests/deployment.yaml')
                     }
