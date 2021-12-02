@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-api
+  namespace: tennis-mauel-stage
 spec:
   replicas: 2
   minReadySeconds: 60

@@ -92,7 +92,7 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 script {
-                    kubernetesDeploy(configs: 'pods/deployment.yaml', kubeconfigId: "k3s-config")
+                    kubernetesDeploy(configs: 'menifests/deployment.yaml', kubeconfigId: "k3s-config")
                 }
             }
         }
