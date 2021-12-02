@@ -29,19 +29,25 @@ spec:
           cpu: 1
           memory: "1024Mi"
 
-    - image: openjdk:8-slim
-      name: java8
+    - image: lachlanevenson/k8s-kubectl:v1.18.3
+      name: kubectl
       command:
-        - sleep
-      args:
-        - 99d
+        - cat
+      tty: true
       resources:
         limits:
           cpu: "500m"
           memory: "512Mi"
+      volumeMounts:
+        - mountPath: /.kube/config
+          name: k3s-config
 
   volumes:
     - name: docker-sock
       hostPath:
         path: /var/run/docker.sock
         type: Socket
+        
+    - name: k3s-config
+      hostPath:
+        path: /home/rocky/projects/k8s/k3s/config

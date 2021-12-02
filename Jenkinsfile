@@ -90,10 +90,9 @@ pipeline {
 
         stage('Deploy an App') {
             steps {
-                container('java8') {
-                    script {
-                        kubernetesDeploy(kubeconfigId: 'k3s-config', configs: 'menifests/deployment.yaml')
-                    }
+                container('kubectl') {
+                    sh 'ls -a'
+                    sh 'kubectl get node'
                 }
             }
         }
