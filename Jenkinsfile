@@ -92,9 +92,7 @@ pipeline {
             steps {
                 container('kubectl') {
                     script {
-                        sh 'ls -a'
-                        sh 'ls .kube'
-                        sh 'kubectl get node'
+                        kubernetesDeploy(kubeconfigId: 'k3s-config', configs: 'menifests/deployment.yaml')
                     }
                 }
             }
