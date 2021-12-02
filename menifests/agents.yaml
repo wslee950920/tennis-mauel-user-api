@@ -31,10 +31,6 @@ spec:
 
     - image: bitnami/kubectl:latest
       name: kubectl
-      command:
-        - sleep
-      args:
-        - 99d
       resources:
         limits:
           cpu: "500m"
