@@ -29,7 +29,7 @@ spec:
           cpu: 1
           memory: "1024Mi"
 
-    - image: lachlanevenson/k8s-kubectl:v1.18.3
+    - image: rancher/kubectl:v1.22.2
       name: kubectl
       command:
         - cat
