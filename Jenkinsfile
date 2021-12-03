@@ -92,7 +92,7 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'kubectl apply --kubeconfig $K3S_KUBECONFIG -f menifests/deployment.yaml -n tennis-mauel-stage'
+                    sh 'cat menifests/deployment.yaml | sed "s/{{BUILD_ID}}/$BUILD_ID/g" | kubectl apply --kubeconfig $K3S_KUBECONFIG -n tennis-mauel-stage -f -'
                 }
             }
         }
