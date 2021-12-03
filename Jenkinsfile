@@ -92,10 +92,7 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'export KUBECONFIG=$K3S_KUBECONFIG'
-                    sh 'echo $KUBECONFIG'
-                    sh 'kubectl get node'
-                    sh 'kubectl apply -f menifests/deployment.yaml -n tennis-mauel-stage'
+                    sh 'kubectl apply --kubeconfig $K3S_KUBECONFIG -f menifests/deployment.yaml -n tennis-mauel-stage'
                 }
             }
         }
