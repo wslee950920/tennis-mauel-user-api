@@ -7,6 +7,7 @@ pipeline {
     options { skipDefaultCheckout(true) }
     environment {
         REGISTRY_CERTS = credentials('docker-registry')
+        K3S_KUBECONFIG=credentials('k3s-config')
     }
     
     stages {
@@ -91,10 +92,7 @@ pipeline {
         stage('Deploy an App') {
             steps {
                 container('kubectl') {
-                    sh 'ls -l /root/.kube'
-                    sh 'ls -l /root/.kube/config'
-                    sh 'cat /root/.kube/config'
-                    sh 'kubectl get node'
+                    sh 'kubectl --kubeconfig $K3S_KUBECONFIG get node'
                 }
             }
         }
