@@ -30,7 +30,7 @@ public class User {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private Boolean sex;
 
     @Column(length = 50, nullable = false)
