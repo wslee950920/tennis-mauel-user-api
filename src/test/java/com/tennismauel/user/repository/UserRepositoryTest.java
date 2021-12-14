@@ -1,8 +1,9 @@
-package com.tennismauel.user.domain.user;
+package com.tennismauel.user.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.tennismauel.user.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,22 +20,34 @@ public class UserRepositoryTest {
         String email = "amicusadaras6@gmail.com";
         String nick = "qkdrnvhrrur";
         String name = "이우석";
-        Boolean sex = true;
+        String gender = "male";
         String provider = "kakao";
+        Integer agerange = 20;
+        String phone = null;
+        String profile = null;
+        String role = "ROLE_USER";
 
         User savedUser = UserRepository.save(User.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
-                .sex(sex)
+                .gender(gender)
+                .agerange(agerange)
+                .phone(phone)
+                .role(role)
+                .profile(profile)
                 .provider(provider).build());
 
         User selectedUser = UserRepository.getById(savedUser.getId());
         assertEquals(email, selectedUser.getEmail());
         assertEquals(nick, selectedUser.getNick());
         assertEquals(name, selectedUser.getName());
-        assertEquals(sex, selectedUser.getSex());
+        assertEquals(gender, selectedUser.getGender());
         assertEquals(provider, selectedUser.getProvider());
+        assertEquals(agerange, selectedUser.getAgerange());
+        assertEquals(phone, selectedUser.getPhone());
+        assertEquals(profile, selectedUser.getProfile());
+        assertEquals(role, selectedUser.getRole());
     }
 
     @Test
@@ -42,15 +55,19 @@ public class UserRepositoryTest {
         String email = "amicusadaras6@gmail.com";
         String nick = "qkdrnvhrrur";
         String name = "이우석";
-        Boolean sex = null;
+        Integer agerange = 20;
+        String gender = null;
         String provider = null;
+        String role = null;
 
         assertThrows(DataIntegrityViolationException.class, () -> {
             UserRepository.save(User.builder()
                     .email(email)
                     .nick(nick)
                     .name(name)
-                    .sex(sex)
+                    .agerange(agerange)
+                    .gender(gender)
+                    .role(role)
                     .provider(provider).build());
         });
     }
@@ -60,15 +77,23 @@ public class UserRepositoryTest {
         String email = "amicusadaras6@gmail.com".repeat(100);
         String nick = "qkdrnvhrrur";
         String name = "이우석";
-        Boolean sex = true;
+        String gender = "male";
         String provider = "kakao";
+        Integer agerange = 20;
+        String profile = null;
+        String phone = null;
+        String role = "ROLE_USER";
 
         assertThrows(DataIntegrityViolationException.class, () -> {
             UserRepository.save(User.builder()
                     .email(email)
                     .nick(nick)
                     .name(name)
-                    .sex(sex)
+                    .agerange(agerange)
+                    .gender(gender)
+                    .phone(phone)
+                    .profile(profile)
+                    .role(role)
                     .provider(provider).build());
         });
     }
