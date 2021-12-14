@@ -6,6 +6,8 @@ import org.springframework.util.Assert;
 
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @NoArgsConstructor
 public class Result {
     public static ResponseEntity<ApiResult> created() {
@@ -46,5 +48,9 @@ public class Result {
 
     public static ResponseEntity<ApiResult> forbidden() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    public static ResponseEntity<ApiResult> conflict(){
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 }

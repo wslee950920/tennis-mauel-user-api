@@ -24,19 +24,19 @@ public class User {
     @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = true)
     private String nick;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = true)
     private String name;
 
     @Column(length = 100, nullable = true)
     private String profile;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = true)
     private String gender;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer agerange;
 
     @Column(length = 10, nullable = false)
@@ -45,15 +45,6 @@ public class User {
     @Column(length = 20, nullable = true)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(length=20, nullable = false)
     private String role;
-
-    public User update(String nick, String profile, String phone, Integer agerange) {
-        this.nick = nick;
-        this.profile = profile;
-        this.phone = phone;
-        this.agerange = agerange;
-
-        return this;
-    }
 }

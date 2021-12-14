@@ -17,12 +17,12 @@ public class UserRepositoryTest {
 
     @Test
     public void createUserSuccess() {
-        String email = "amicusadaras6@gmail.com";
-        String nick = "qkdrnvhrrur";
-        String name = "이우석";
-        String gender = "male";
+        String email = "foo@bar";
+        String nick = null;
+        String name = null;
+        String gender = null;
         String provider = "kakao";
-        Integer agerange = 20;
+        Integer agerange = null;
         String phone = null;
         String profile = null;
         String role = "ROLE_USER";
@@ -52,12 +52,14 @@ public class UserRepositoryTest {
 
     @Test
     public void createUserFailNullable() {
-        String email = "amicusadaras6@gmail.com";
+        String email = null;
         String nick = "qkdrnvhrrur";
         String name = "이우석";
-        Integer agerange = 20;
-        String gender = null;
+        String gender = "male";
         String provider = null;
+        Integer agerange = 20;
+        String phone = "01020770883";
+        String profile = "profile.jpg";
         String role = null;
 
         assertThrows(DataIntegrityViolationException.class, () -> {
@@ -66,6 +68,8 @@ public class UserRepositoryTest {
                     .nick(nick)
                     .name(name)
                     .agerange(agerange)
+                    .phone(phone)
+                    .profile(profile)
                     .gender(gender)
                     .role(role)
                     .provider(provider).build());
@@ -74,14 +78,14 @@ public class UserRepositoryTest {
 
     @Test
     public void createUserFailLength() {
-        String email = "amicusadaras6@gmail.com".repeat(100);
-        String nick = "qkdrnvhrrur";
+        String email = "foo@bar";
+        String nick = "qkdrnvhrrur".repeat(50);
         String name = "이우석";
         String gender = "male";
         String provider = "kakao";
         Integer agerange = 20;
-        String profile = null;
-        String phone = null;
+        String profile = "profile.jpg";
+        String phone = "01012345678";
         String role = "ROLE_USER";
 
         assertThrows(DataIntegrityViolationException.class, () -> {
