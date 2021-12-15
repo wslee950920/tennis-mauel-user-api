@@ -21,3 +21,7 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+    com:
+      tennismauel:
+        user: DEBUG

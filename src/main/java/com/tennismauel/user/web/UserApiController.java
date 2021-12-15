@@ -7,12 +7,14 @@ import com.tennismauel.user.web.dto.UserRegistrationDto;
 import com.tennismauel.user.web.results.ApiResult;
 import com.tennismauel.user.web.results.Result;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -21,6 +23,8 @@ public class UserApiController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResult> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto){
+        log.debug("register endpoint");
+
         try{
             userService.register(userRegistrationDto);
         } catch (RegistrationException e) {
