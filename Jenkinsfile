@@ -56,7 +56,7 @@ pipeline {
         stage('Code Coverage') {
             steps {
                 container('gradle') {
-                    sh 'gradle jacocoTestCoverageVerification'
+                    sh 'gradle jacocoTestReport'
                 }
             }
         }

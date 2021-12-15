@@ -54,6 +54,8 @@ dependencies {
 test {
 	outputs.dir snippetsDir // 선언한 디렉토리에 생성
 	useJUnitPlatform()
+
+    finalizedBy jacocoTestReport
 }
 
 task unitTests(type:Test){
@@ -68,18 +70,20 @@ task integrationTests(type:Test){
     }
 }
 
-sonarqube {
-  properties {
-    property "sonar.projectKey", "tennis-mauel-user-api"
-	property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
-    property 'sonar.java.binaries', 'build/classes'
-    property 'sonar.test.inclusions', '**/*Test.java'
-	property 'sonar.exclusions', '**/test/**, **/resources/**'
-  }
-}
-
 jacoco {
 	 toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    finalizedBy jacocoTestCoverageVerification
+
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+    }
+
+    finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestCoverageVerification {
@@ -99,23 +103,41 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.30
             }
+
+            excludes = [
+                    '**.*Dto*',
+                    '**.web.results.*'
+            ]
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "tennis-mauel-user-api"
+        property 'sonar.jacoco.reportPaths', 'build/jacoco/test.exec'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.java.binaries', 'build/classes'
+        property 'sonar.test.inclusions', '**/*Test.java'
+        property 'sonar.exclusions', '**/test/**, **/resources/**'
+        property 'sonar.tests', 'src/test'
+        property 'sonar.java.coveragePlugin', 'jacoco'
+        property 'sonar.exclusions', 'src/test'
     }
 }
 
 asciidoctor {
     attributes 'snippets': snippetsDir // adoc 파일 생성시 올바르게 include하기 위함
-    inputs.dir snippetsDir 
-    dependsOn test
+    inputs.dir snippetsDir
 }
 
 bootJar {
     dependsOn asciidoctor
+
     from ("${asciidoctor.outputDir}/html5") { // gradle은 src/docs/asciidoc 에 메인 adoc생성!
         into 'static/docs' // asciidoctor로 만든 문서는 static/docs 디렉토리로.!
     }
 }
-
 
 task copyDocument(type: Copy) { // 생성된 docs 파일을 build시 static 아래에 docs로 복사!
     dependsOn bootJar
@@ -125,5 +147,5 @@ task copyDocument(type: Copy) { // 생성된 docs 파일을 build시 static 아�
 }
 
 build {
-    dependsOn copyDocument // build시 copy 실행
+    dependsOn copyDocument
 }
