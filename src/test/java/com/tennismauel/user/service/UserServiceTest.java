@@ -8,4 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 }
