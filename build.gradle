@@ -135,6 +135,8 @@ bootJar {
     from ("${asciidoctor.outputDir}/html5") { // gradle은 src/docs/asciidoc 에 메인 adoc생성!
         into 'static/docs' // asciidoctor로 만든 문서는 static/docs 디렉토리로.!
     }
+
+    archiveFileName = 'user-api.jar'
 }
 
 task copyDocument(type: Copy) { // 생성된 docs 파일을 build시 static 아래에 docs로 복사!

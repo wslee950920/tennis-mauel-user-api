@@ -35,9 +35,6 @@ pipeline {
             steps {
                 container('gradle') {
                     sh 'gradle build -x test'
-                    sh 'ls'
-                    sh 'ls build'
-                    sh 'ls build/libs'
                 }
             }
         }
