@@ -1,12 +1,10 @@
-package com.tennismauel.user.web.results;
+package com.tennismauel.user.web.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
 
 @NoArgsConstructor
 public class Result {

@@ -1,4 +1,4 @@
-package com.tennismauel.user.web.dto;
+package com.tennismauel.user.web.request;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;

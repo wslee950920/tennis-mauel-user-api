@@ -1,4 +1,4 @@
-package com.tennismauel.user.web.dto;
+package com.tennismauel.user.web.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

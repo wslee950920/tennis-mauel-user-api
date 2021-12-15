@@ -2,7 +2,7 @@ package com.tennismauel.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tennismauel.user.repository.UserRepository;
-import com.tennismauel.user.web.dto.UserRegistrationDto;
+import com.tennismauel.user.web.request.UserRegistrationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

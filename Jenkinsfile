@@ -19,22 +19,14 @@ pipeline {
 
         stage('git') {
             steps {
-                git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
-            }
-        }      
-
-        stage('Unit Test') {
-            steps {
-                container('gradle') {
-                    sh 'gradle unitTest'
-                }
+                git url: 'https://github.com/wslee950920/tennis-mauel-user-api.git', branch: "dev"
             }
         }
 
-        stage('Integration Test') {        
+        stage('Unit&Integration Test') {
             steps {
                 container('gradle') {
-                    sh 'gradle integrationTest'
+                    sh 'gradle test'
                 }
             }
         }
@@ -43,6 +35,9 @@ pipeline {
             steps {
                 container('gradle') {
                     sh 'gradle build -x test'
+                    sh 'ls'
+                    sh 'ls build'
+                    sh 'ls build/libs'
                 }
             }
         }
@@ -57,14 +52,6 @@ pipeline {
 
                 timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-
-        stage('Code Coverage') {
-            steps {
-                container('gradle') {
-                    sh 'gradle jacocoTestCoverageVerification'
                 }
             }
         }
