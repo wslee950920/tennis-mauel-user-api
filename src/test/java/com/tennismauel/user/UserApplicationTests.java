@@ -1,7 +1,6 @@
 package com.tennismauel.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tennismauel.user.entity.User;
 import com.tennismauel.user.repository.UserRepository;
 import com.tennismauel.user.web.dto.UserRegistrationDto;
 import org.junit.jupiter.api.BeforeEach;
