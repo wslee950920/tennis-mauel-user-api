@@ -105,7 +105,7 @@ jacocoTestCoverageVerification {
             }
 
             excludes = [
-                    '**.web.response.*'
+                '**.web.response.*'
             ]
         }
     }
