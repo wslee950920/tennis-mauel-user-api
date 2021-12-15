@@ -22,9 +22,6 @@ spec:
       containers:
       - name: user-api
         image: registry.mauel.local:5000/tennis-mauel-user-api:{{BUILD_ID}}
-        env:
-          - name: APPLICATION_PROFILE
-            value: stage
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
