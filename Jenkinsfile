@@ -4,6 +4,7 @@ pipeline {
             yamlFile 'menifests/agents.yaml'
         }
     }
+    options { skipDefaultCheckout(true) }
     environment {
         REGISTRY_CERTS = credentials('docker-registry')
         K3S_KUBECONFIG=credentials('k3s-config')
@@ -13,6 +14,12 @@ pipeline {
         stage('Start') {
             steps {
                 slackSend (channel: '#jenkins', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+
+        stage('git') {
+            steps {
+                git url: 'https://github.com/wslee950920/tennis-mauel-user-api.git', branch: "dev"
             }
         }
 
