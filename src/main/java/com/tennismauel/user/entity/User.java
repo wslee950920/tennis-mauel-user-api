@@ -1,4 +1,4 @@
-package com.tennismauel.user.domain.user;
+package com.tennismauel.user.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,18 +21,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = true)
     private String nick;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 10, nullable = true)
     private String name;
 
-    @Column(nullable = false)
-    private Boolean sex;
+    @Column(length = 100, nullable = true)
+    private String profile;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 10, nullable = true)
+    private String gender;
+
+    @Column(nullable = true)
+    private Integer agerange;
+
+    @Column(length = 10, nullable = false)
     private String provider;
+
+    @Column(length = 20, nullable = true)
+    private String phone;
+
+    @Column(length=20, nullable = false)
+    private String role;
 }
