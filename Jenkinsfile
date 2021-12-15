@@ -4,7 +4,6 @@ pipeline {
             yamlFile 'menifests/agents.yaml'
         }
     }
-    options { skipDefaultCheckout(true) }
     environment {
         REGISTRY_CERTS = credentials('docker-registry')
         K3S_KUBECONFIG=credentials('k3s-config')
@@ -17,24 +16,10 @@ pipeline {
             }
         }
 
-        stage('git') {
-            steps {
-                git 'https://github.com/wslee950920/tennis-mauel-user-api.git'
-            }
-        }      
-
-        stage('Unit Test') {
+        stage('Unit&Integration Test') {
             steps {
                 container('gradle') {
-                    sh 'gradle unitTest'
-                }
-            }
-        }
-
-        stage('Integration Test') {        
-            steps {
-                container('gradle') {
-                    sh 'gradle integrationTest'
+                    sh 'gradle test'
                 }
             }
         }
