@@ -1,4 +1,4 @@
-package com.tennismauel.user.web.results;
+package com.tennismauel.user.web.response;
 
 import org.springframework.util.Assert;
 

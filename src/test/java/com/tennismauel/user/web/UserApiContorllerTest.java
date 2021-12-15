@@ -3,7 +3,7 @@ package com.tennismauel.user.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tennismauel.user.service.UserService;
 import com.tennismauel.user.service.exception.EmailExistException;
-import com.tennismauel.user.web.dto.UserRegistrationDto;
+import com.tennismauel.user.web.request.UserRegistrationDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

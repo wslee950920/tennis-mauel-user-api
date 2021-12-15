@@ -5,7 +5,7 @@ import com.tennismauel.user.mapper.UserRegistrationDtoToUser;
 import com.tennismauel.user.repository.UserRepository;
 import com.tennismauel.user.service.exception.EmailExistException;
 import com.tennismauel.user.service.exception.RegistrationException;
-import com.tennismauel.user.web.dto.UserRegistrationDto;
+import com.tennismauel.user.web.request.UserRegistrationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -53,14 +53,6 @@ pipeline {
             }
         }
 
-        stage('Code Coverage') {
-            steps {
-                container('gradle') {
-                    sh 'gradle jacocoTestReport'
-                }
-            }
-        }
-
         stage('Build a Docker image') {
             steps {
                 container('docker') {
