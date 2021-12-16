@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class UserRegistrationDto {
+public class RegistrationDto {
     @Size(max = 50)
     @Email
     @NotNull(message = "email not null")

@@ -2,7 +2,7 @@ package com.tennismauel.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tennismauel.user.repository.UserRepository;
-import com.tennismauel.user.web.request.UserRegistrationDto;
+import com.tennismauel.user.web.request.RegistrationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -40,11 +40,11 @@ class UserApplicationTests {
 		String provider="naver";
 		String role="ROLE_GUEST";
 
-		UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+		RegistrationDto registrationDto = RegistrationDto.builder()
 				.email(email)
 				.provider(provider)
 				.role(role).build();
-		String body = objectMapper.writeValueAsString(userRegistrationDto);
+		String body = objectMapper.writeValueAsString(registrationDto);
 
 		webTestClient.post()
 				.uri("/user/register")
@@ -60,11 +60,11 @@ class UserApplicationTests {
 		String provider="naver";
 		String role="ROLE_GUEST";
 
-		UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+		RegistrationDto registrationDto = RegistrationDto.builder()
 				.email(email)
 				.provider(provider)
 				.role(role).build();
-		String body = objectMapper.writeValueAsString(userRegistrationDto);
+		String body = objectMapper.writeValueAsString(registrationDto);
 
 		webTestClient.post()
 				.uri("/user/register")
@@ -81,11 +81,11 @@ class UserApplicationTests {
 		String provider="naver";
 		String role="ROLE_GUEST";
 
-		UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+		RegistrationDto registrationDto = RegistrationDto.builder()
 				.email(email)
 				.provider(provider)
 				.role(role).build();
-		String body = objectMapper.writeValueAsString(userRegistrationDto);
+		String body = objectMapper.writeValueAsString(registrationDto);
 
 		webTestClient.post()
 				.uri("/user/register")

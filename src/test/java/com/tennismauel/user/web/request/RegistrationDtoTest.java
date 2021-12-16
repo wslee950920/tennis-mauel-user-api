@@ -14,7 +14,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("unit")
-public class UserRegistrationDtoTest {
+public class RegistrationDtoTest {
     private static Validator validator;
 
     @BeforeAll
@@ -36,7 +36,7 @@ public class UserRegistrationDtoTest {
         String profile = null;
         String role = "ROLE_USER";
 
-        UserRegistrationDto userRegistrationDto = UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
@@ -47,7 +47,7 @@ public class UserRegistrationDtoTest {
                 .profile(profile)
                 .role(role).build();
 
-        Set<ConstraintViolation<UserRegistrationDto>> violations = validator.validate(userRegistrationDto);
+        Set<ConstraintViolation<RegistrationDto>> violations = validator.validate(registrationDto);
         assertEquals(0, violations.size());
     }
 
@@ -63,7 +63,7 @@ public class UserRegistrationDtoTest {
         String profile = null;
         String role = "ROLE_USER";
 
-        UserRegistrationDto userRegistrationDto = UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
@@ -74,7 +74,7 @@ public class UserRegistrationDtoTest {
                 .profile(profile)
                 .role(role).build();
 
-        Set<ConstraintViolation<UserRegistrationDto>> violations = validator.validate(userRegistrationDto);
+        Set<ConstraintViolation<RegistrationDto>> violations = validator.validate(registrationDto);
         assertEquals(1, violations.size());
     }
 
@@ -90,7 +90,7 @@ public class UserRegistrationDtoTest {
         String profile = "profile.jpg";
         String role = null;
 
-        UserRegistrationDto userRegistrationDto = UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
@@ -101,7 +101,7 @@ public class UserRegistrationDtoTest {
                 .profile(profile)
                 .role(role).build();
 
-        Set<ConstraintViolation<UserRegistrationDto>> violations = validator.validate(userRegistrationDto);
+        Set<ConstraintViolation<RegistrationDto>> violations = validator.validate(registrationDto);
         assertEquals(3, violations.size());
     }
 
@@ -117,7 +117,7 @@ public class UserRegistrationDtoTest {
         String phone = "01012345678";
         String role = "ROLE_USER";
 
-        UserRegistrationDto userRegistrationDto = UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
@@ -128,7 +128,7 @@ public class UserRegistrationDtoTest {
                 .profile(profile)
                 .role(role).build();
 
-        Set<ConstraintViolation<UserRegistrationDto>> violations = validator.validate(userRegistrationDto);
+        Set<ConstraintViolation<RegistrationDto>> violations = validator.validate(registrationDto);
         assertEquals(1, violations.size());
     }
 }
