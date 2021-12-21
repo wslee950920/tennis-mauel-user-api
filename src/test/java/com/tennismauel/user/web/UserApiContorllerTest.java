@@ -3,7 +3,7 @@ package com.tennismauel.user.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tennismauel.user.service.UserService;
 import com.tennismauel.user.service.exception.EmailExistException;
-import com.tennismauel.user.web.request.UserRegistrationDto;
+import com.tennismauel.user.web.request.RegistrationDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +36,13 @@ public class UserApiContorllerTest {
         String provider="naver";
         String role="ROLE_GUEST";
 
-        UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .provider(provider)
                 .role(role).build();
-        String content = objectMapper.writeValueAsString(userRegistrationDto);
+        String content = objectMapper.writeValueAsString(registrationDto);
 
-        doNothing().when(userService).register(isA(UserRegistrationDto.class));
+        doNothing().when(userService).register(isA(RegistrationDto.class));
         mockMvc.perform(post("/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
@@ -51,8 +51,8 @@ public class UserApiContorllerTest {
 
     @Test
     public void registerUserFailNotNull() throws Exception{
-        UserRegistrationDto userRegistrationDto= UserRegistrationDto.builder().build();
-        String content=objectMapper.writeValueAsString(userRegistrationDto);
+        RegistrationDto registrationDto = RegistrationDto.builder().build();
+        String content=objectMapper.writeValueAsString(registrationDto);
 
         mockMvc.perform(post("/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,11 +66,11 @@ public class UserApiContorllerTest {
         String provider="naver";
         String role="ROLE_GUEST";
 
-        UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .provider(provider)
                 .role(role).build();
-        String content = objectMapper.writeValueAsString(userRegistrationDto);
+        String content = objectMapper.writeValueAsString(registrationDto);
 
         mockMvc.perform(post("/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,13 +84,13 @@ public class UserApiContorllerTest {
         String provider="naver";
         String role="ROLE_GUEST";
 
-        UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .provider(provider)
                 .role(role).build();
-        String content = objectMapper.writeValueAsString(userRegistrationDto);
+        String content = objectMapper.writeValueAsString(registrationDto);
 
-        doThrow(EmailExistException.class).when(userService).register(isA(UserRegistrationDto.class));
+        doThrow(EmailExistException.class).when(userService).register(isA(RegistrationDto.class));
         mockMvc.perform(post("/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))

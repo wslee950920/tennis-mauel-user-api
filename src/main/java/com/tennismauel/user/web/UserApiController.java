@@ -3,7 +3,7 @@ package com.tennismauel.user.web;
 import com.tennismauel.user.service.UserService;
 import com.tennismauel.user.service.exception.EmailExistException;
 import com.tennismauel.user.service.exception.RegistrationException;
-import com.tennismauel.user.web.request.UserRegistrationDto;
+import com.tennismauel.user.web.request.RegistrationDto;
 import com.tennismauel.user.web.response.ApiResult;
 import com.tennismauel.user.web.response.Result;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResult> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto){
+    public ResponseEntity<ApiResult> register(@Valid @RequestBody RegistrationDto registrationDto){
         log.debug("register endpoint");
 
         try{
-            userService.register(userRegistrationDto);
+            userService.register(registrationDto);
         } catch (RegistrationException e) {
             if (e instanceof EmailExistException) {
                 return Result.conflict();

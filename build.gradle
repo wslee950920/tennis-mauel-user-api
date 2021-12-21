@@ -75,8 +75,6 @@ jacoco {
 }
 
 jacocoTestReport {
-    finalizedBy jacocoTestCoverageVerification
-
     reports {
         html.enabled true
         xml.enabled true
@@ -95,17 +93,18 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.60
             }
 
             limit {
                 counter = 'METHOD'
                 value = 'COVEREDRATIO'
-                minimum = 0.30
+                minimum = 0.60
             }
 
             excludes = [
-                '**.web.response.*'
+                '**.web.response.*',
+                '**.user.UserApplication'
             ]
         }
     }
@@ -114,13 +113,13 @@ jacocoTestCoverageVerification {
 sonarqube {
     properties {
         property "sonar.projectKey", "tennis-mauel-user-api"
+        property 'sonar.java.coveragePlugin', 'jacoco'
         property 'sonar.jacoco.reportPaths', 'build/jacoco/test.exec'
         property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
-        property 'sonar.java.binaries', 'build/classes'
-        property 'sonar.test.inclusions', '**/*Test.java'
-        property 'sonar.exclusions', '**/test/**, **/resources/**, src/test, **/web/response/*'
         property 'sonar.tests', 'src/test'
-        property 'sonar.java.coveragePlugin', 'jacoco'
+        property 'sonar.sources', 'src/main'
+        property 'sonar.exclusions', '**/resources/**, **/web/response/*, **/user/UserApplication.java'
+        property 'sonar.java.binaries', 'build/classes'
     }
 }
 

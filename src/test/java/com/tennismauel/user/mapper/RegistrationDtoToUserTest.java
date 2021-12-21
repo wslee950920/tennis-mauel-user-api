@@ -1,7 +1,7 @@
 package com.tennismauel.user.mapper;
 
 import com.tennismauel.user.entity.User;
-import com.tennismauel.user.web.request.UserRegistrationDto;
+import com.tennismauel.user.web.request.RegistrationDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("unit")
-@SpringBootTest(classes = {UserRegistrationDtoToUserImpl.class})
-public class UserRegistrationDtoToUserTest {
+@SpringBootTest(classes = {RegistrationDtoToUserImpl.class})
+public class RegistrationDtoToUserTest {
     @Autowired
-    UserRegistrationDtoToUser userRegistrationDtoToUser;
+    RegistrationDtoToUser registrationDtoToUser;
 
     @Test
     public void dtoToEntitySuccess(){
@@ -27,7 +27,7 @@ public class UserRegistrationDtoToUserTest {
         String profile = null;
         String role = "ROLE_USER";
 
-        UserRegistrationDto userRegistrationDto=UserRegistrationDto.builder()
+        RegistrationDto registrationDto = RegistrationDto.builder()
                 .email(email)
                 .nick(nick)
                 .name(name)
@@ -38,7 +38,7 @@ public class UserRegistrationDtoToUserTest {
                 .profile(profile)
                 .role(role).build();
 
-        User user=userRegistrationDtoToUser.dtoToEntity(userRegistrationDto);
+        User user=registrationDtoToUser.dtoToEntity(registrationDto);
         assertEquals(email, user.getEmail());
         assertEquals(nick, user.getNick());
         assertEquals(name, user.getName());
@@ -52,10 +52,10 @@ public class UserRegistrationDtoToUserTest {
 
     @Test
     public void dtoToEntitySuccessNullable(){
-        UserRegistrationDto userRegistrationDto= UserRegistrationDto.builder().build();
+        RegistrationDto registrationDto = RegistrationDto.builder().build();
 
         //레포지토리에 저장되기 전까지는 nullable=false에 null값 들어가도 괜찮은 듯
-        User user=userRegistrationDtoToUser.dtoToEntity(userRegistrationDto);
+        User user=registrationDtoToUser.dtoToEntity(registrationDto);
         assertEquals(null, user.getEmail());
         assertEquals(null, user.getNick());
         assertEquals(null, user.getName());
