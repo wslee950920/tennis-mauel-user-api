@@ -1,8 +1,11 @@
 package com.tennismauel.user.service;
 
-import com.tennismauel.user.service.exception.RegistrationException;
-import com.tennismauel.user.web.request.RegistrationDto;
+import com.tennismauel.user.web.exception.EmailNotExistException;
+import com.tennismauel.user.web.request.UpdateUserInfoRequest;
+import com.tennismauel.user.web.response.UserInfoResponse;
 
 public interface UserService {
-    public void register(RegistrationDto registrationDto) throws RegistrationException;
+    UserInfoResponse getUserInfo(String email) throws EmailNotExistException;
+
+    void updateUserInfo(UpdateUserInfoRequest infoDto) throws EmailNotExistException;
 }

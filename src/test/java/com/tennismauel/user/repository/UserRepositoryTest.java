@@ -3,6 +3,7 @@ package com.tennismauel.user.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.tennismauel.user.entity.Role;
 import com.tennismauel.user.entity.User;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -18,23 +19,21 @@ public class UserRepositoryTest {
     UserRepository UserRepository;
 
     @Test
-    public void createUserSuccess() {
+    public void saveUserSuccess() {
         String email = "foo@bar";
         String nick = null;
-        String name = null;
-        String gender = null;
+        Character gender = null;
         String provider = "kakao";
-        Integer agerange = null;
+        Integer age = null;
         String phone = null;
         String profile = null;
-        String role = "ROLE_USER";
+        Role role = Role.GUEST;
 
         User savedUser = UserRepository.save(User.builder()
                 .email(email)
                 .nick(nick)
-                .name(name)
                 .gender(gender)
-                .agerange(agerange)
+                .age(age)
                 .phone(phone)
                 .role(role)
                 .profile(profile)
@@ -43,64 +42,132 @@ public class UserRepositoryTest {
         User selectedUser = UserRepository.getById(savedUser.getId());
         assertEquals(email, selectedUser.getEmail());
         assertEquals(nick, selectedUser.getNick());
-        assertEquals(name, selectedUser.getName());
         assertEquals(gender, selectedUser.getGender());
         assertEquals(provider, selectedUser.getProvider());
-        assertEquals(agerange, selectedUser.getAgerange());
+        assertEquals(age, selectedUser.getAge());
         assertEquals(phone, selectedUser.getPhone());
         assertEquals(profile, selectedUser.getProfile());
         assertEquals(role, selectedUser.getRole());
     }
 
     @Test
-    public void createUserFailNullable() {
-        String email = null;
-        String nick = "qkdrnvhrrur";
-        String name = "이우석";
-        String gender = "male";
-        String provider = null;
-        Integer agerange = 20;
-        String phone = "01020770883";
-        String profile = "profile.jpg";
-        String role = null;
+    public void saveUserFail_UniqueEmail(){
+        String email = "foo@bar";
+        String nick = null;
+        Character gender = null;
+        String provider = "kakao";
+        Integer age = null;
+        String phone = null;
+        String profile = null;
+        Role role = Role.GUEST;
 
+        UserRepository.save(User.builder()
+                .email(email)
+                .nick(nick)
+                .gender(gender)
+                .age(age)
+                .phone(phone)
+                .role(role)
+                .profile(profile)
+                .provider(provider).build());
+
+        User user=User.builder()
+                .email(email)
+                .nick(nick)
+                .age(age)
+                .phone(phone)
+                .profile(profile)
+                .gender(gender)
+                .role(role)
+                .provider(provider).build();
         assertThrows(DataIntegrityViolationException.class, () -> {
-            UserRepository.save(User.builder()
-                    .email(email)
-                    .nick(nick)
-                    .name(name)
-                    .agerange(agerange)
-                    .phone(phone)
-                    .profile(profile)
-                    .gender(gender)
-                    .role(role)
-                    .provider(provider).build());
+            UserRepository.save(user);
         });
     }
 
     @Test
-    public void createUserFailLength() {
+    public void saveUserFail_UniqueNick(){
+        String email = "foo@bar";
+        String nick = "foo";
+        Character gender = null;
+        String provider = "kakao";
+        Integer age = null;
+        String phone = null;
+        String profile = null;
+        Role role = Role.GUEST;
+
+        UserRepository.save(User.builder()
+                .email(email)
+                .nick(nick)
+                .gender(gender)
+                .age(age)
+                .phone(phone)
+                .role(role)
+                .profile(profile)
+                .provider(provider).build());
+
+        email="bar@foo";
+        User user=User.builder()
+                .email(email)
+                .nick(nick)
+                .age(age)
+                .phone(phone)
+                .profile(profile)
+                .gender(gender)
+                .role(role)
+                .provider(provider).build();
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            UserRepository.save(user);
+        });
+    }
+
+    @Test
+    public void saveUserFail_Null() {
+        String email = null;
+        String nick = "qkdrnvhrrur";
+        Character gender = 'M';
+        String provider = null;
+        Integer age = 20;
+        String phone = "01020770883";
+        String profile = "profile.jpg";
+        Role role = null;
+
+        User user=User.builder()
+                .email(email)
+                .nick(nick)
+                .age(age)
+                .phone(phone)
+                .profile(profile)
+                .gender(gender)
+                .role(role)
+                .provider(provider).build();
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            UserRepository.save(user);
+        });
+    }
+
+    @Test
+    public void saveUserFail_Length() {
         String email = "foo@bar";
         String nick = "qkdrnvhrrur".repeat(50);
-        String name = "이우석";
-        String gender = "male";
+        Character gender = 'M';
         String provider = "kakao";
-        Integer agerange = 20;
+        Integer age = 20;
         String profile = "profile.jpg";
         String phone = "01012345678";
-        String role = "ROLE_USER";
+        Role role = Role.MEMBER;
 
+        User user=User.builder()
+                .email(email)
+                .nick(nick)
+                .age(age)
+                .phone(phone)
+                .profile(profile)
+                .gender(gender)
+                .role(role)
+                .provider(provider).build();
         assertThrows(DataIntegrityViolationException.class, () -> {
-            UserRepository.save(User.builder()
-                    .email(email)
-                    .nick(nick)
-                    .name(name)
-                    .agerange(agerange)
-                    .gender(gender)
-                    .phone(phone)
-                    .profile(profile)
-                    .role(role)
-                    .provider(provider).build());
+            UserRepository.save(user);
         });
     }
 }

@@ -1,30 +1,53 @@
 package com.tennismauel.user.service;
 
 import com.tennismauel.user.entity.User;
-import com.tennismauel.user.mapper.RegistrationDtoToUser;
+import com.tennismauel.user.mapper.UserInfoMapper;
 import com.tennismauel.user.repository.UserRepository;
-import com.tennismauel.user.service.exception.EmailExistException;
-import com.tennismauel.user.service.exception.RegistrationException;
-import com.tennismauel.user.web.request.RegistrationDto;
+import com.tennismauel.user.web.exception.EmailNotExistException;
+import com.tennismauel.user.web.request.UpdateUserInfoRequest;
+import com.tennismauel.user.web.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
-    private final RegistrationDtoToUser RegistrationDtoToUser;
+    private final UserInfoMapper userInfoMapper;
 
     @Override
-    public void register(RegistrationDto registrationDto) throws RegistrationException {
-        Optional<User> user=userRepository.findByEmail(registrationDto.getEmail());
-        if(user.isPresent()){
-            throw new EmailExistException();
+    public UserInfoResponse getUserInfo(String email) throws EmailNotExistException {
+        Optional<User> optional=userRepository.findByEmail(email);
+        if(optional.isEmpty()){
+            throw new EmailNotExistException();
         }
 
-        User newUser=RegistrationDtoToUser.dtoToEntity(registrationDto);
-        userRepository.save(newUser);
+        User user=optional.get();
+        return userInfoMapper.userToInfoDto(user);
+    }
+
+    @Override
+    public void updateUserInfo(UpdateUserInfoRequest info) throws EmailNotExistException{
+        log.debug(info.toString());
+
+        Optional<User> opt=userRepository.findByEmail(info.getEmail());
+        if(opt.isEmpty()){
+            throw new EmailNotExistException();
+        }
+
+        User user=opt.get();
+        user.updateNick(info.getNick());
+        user.updateProfile(info.getProfile());
+        user.updateAge(info.getAge());
+        user.updateGender(info.getGender());
+        user.updatePhone(info.getPhone());
+
+        userRepository.save(user);
     }
 }

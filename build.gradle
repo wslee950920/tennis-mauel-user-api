@@ -30,9 +30,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	// https://mvnrepository.com/artifact/com.h2database/h2
@@ -43,12 +44,15 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' // mock용
     testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient' // webtestclient용
 
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
+    //mapstruct보다 앞에 와야 한다.
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor('org.projectlombok:lombok')
+
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
@@ -58,15 +62,17 @@ test {
     finalizedBy jacocoTestReport
 }
 
-task unitTests(type:Test){
+task unitTest(type:Test){
     useJUnitPlatform {
         includeTags "unit"
+        excludeTags "integration"
     }
 }
 
-task integrationTests(type:Test){
+task integrationTest(type:Test){
     useJUnitPlatform {
         includeTags "integration"
+        excludeTags "unit"
     }
 }
 

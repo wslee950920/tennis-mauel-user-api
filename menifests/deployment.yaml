@@ -25,12 +25,12 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
-            port: 9090
+            port: 9091
           initialDelaySeconds: 60
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 9090
+            port: 9091
           initialDelaySeconds: 60
         resources:
           requests:
@@ -40,9 +40,9 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
           name: api
-        - containerPort: 9090
+        - containerPort: 9091
           name: health
         volumeMounts:
           - mountPath: /config
