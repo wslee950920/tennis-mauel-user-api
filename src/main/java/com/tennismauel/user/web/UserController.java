@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class UserController {
 
     @PutMapping(path = "/update")
     @PreAuthorize("#principal!=null && #principal.claims['username'] eq #infoRequest.email")
-    public ResponseEntity updateUserInfo(@AuthenticationPrincipal Jwt principal, @RequestBody UpdateUserInfoRequest infoRequest, HttpServletResponse response){
+    public ResponseEntity updateUserInfo(@AuthenticationPrincipal Jwt principal, @Valid @RequestBody UpdateUserInfoRequest infoRequest, HttpServletResponse response){
         userService.updateUserInfo(infoRequest);
 
         Cookie token=new Cookie("access_token", null);

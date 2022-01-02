@@ -40,8 +40,7 @@ public class GetUserInfoControllerTest {
         when(userService.getUserInfo(email)).thenReturn(info);
         mvc.perform(get("/@user/info")
                         .with(jwt().jwt(jwt ->
-                                jwt
-                                        .claim("username", email))
+                                jwt.claim("username", email))
                                 .authorities(new SimpleGrantedAuthority("ROLE_GUEST"))))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -49,7 +48,7 @@ public class GetUserInfoControllerTest {
     }
 
     @Test
-    public void getUserInfoFail_NotAuthorized() throws Exception {
+    public void getUserInfoFail_UnAuthorized() throws Exception {
         String email = "foo@bar";
 
         UserInfoResponse info = UserInfoResponse.builder()
@@ -64,7 +63,7 @@ public class GetUserInfoControllerTest {
     }
 
     @Test
-    public void getUserInfoFail_NotAuthenticated() throws Exception {
+    public void getUserInfoFail_UnAuthenticated() throws Exception {
         String email = "foo@bar";
 
         UserInfoResponse info = UserInfoResponse.builder()

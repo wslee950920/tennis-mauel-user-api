@@ -71,8 +71,4 @@ public class User {
     public void updatePhone(String phone){
         this.phone=phone;
     }
-
-    public void setRole(Role role){
-        this.role=role;
-    }
 }

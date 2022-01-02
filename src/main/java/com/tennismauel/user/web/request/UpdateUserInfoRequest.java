@@ -24,6 +24,7 @@ public class UpdateUserInfoRequest {
 
     @Max(100)
     @Min(10)
+    @NotNull
     private Integer age;
 
     private String phone;

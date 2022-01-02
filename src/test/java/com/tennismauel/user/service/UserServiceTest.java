@@ -48,8 +48,8 @@ public class UserServiceTest {
 
         when(userInfoMapper.userToInfoDto(user)).thenReturn(info);
 
-        UserInfoResponse ret=userService.getUserInfo(user.getEmail());
-        assertEquals(user.getEmail(), ret.getEmail());
+        UserInfoResponse response=userService.getUserInfo(user.getEmail());
+        assertEquals(user.getEmail(), response.getEmail());
     }
 
     @Test

@@ -1,6 +1,5 @@
-package com.tennismauel.user.web.response;
+package com.tennismauel.user.web.request;
 
-import com.tennismauel.user.web.request.UpdateUserInfoRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
