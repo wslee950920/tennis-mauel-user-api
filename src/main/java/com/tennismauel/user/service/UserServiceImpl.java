@@ -8,9 +8,7 @@ import com.tennismauel.user.web.request.UpdateUserInfoRequest;
 import com.tennismauel.user.web.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 

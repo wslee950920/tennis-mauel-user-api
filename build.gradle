@@ -86,8 +86,6 @@ jacocoTestReport {
         xml.enabled true
         csv.enabled false
     }
-
-    finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestCoverageVerification {
@@ -110,7 +108,8 @@ jacocoTestCoverageVerification {
 
             excludes = [
                 '**.web.response.*',
-                '**.user.UserApplication'
+                '**.user.UserApplication',
+                '**.entity.*'
             ]
         }
     }
